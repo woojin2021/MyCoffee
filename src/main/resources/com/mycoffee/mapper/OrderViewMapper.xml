@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycoffee.mapper.OrderViewMapper">
+
+	<select id="getRawOrderList" resultType="com.mycoffee.domain.OrderOfTodyVO">
+		SELECT O.OID,
+		       O.ORDERDATE,
+		       O.STATUS,
+		       CS.DISP AS STATUSDISP,
+		       PC.PTYPE,
+		       CT.DISP AS TEMPERATUREDISP,
+		       PC.PNAME,
+		       D.PIECES,
+		       D.PRICE,
+		       O.TOTALPRICE,
+		       U.NAME,
+		       U.MOBILE
+		  FROM TBL_ORDER O
+		 INNER JOIN TBL_ORDER_DETAIL d ON o.OID = d.OID
+		 INNER JOIN TBL_PRODUCT p ON d.PID = p.PID
+		 INNER JOIN TBL_PRODUCT_CATEGORY pc ON p.PCATEGORY = pc.PCATEGORY
+		 INNER JOIN TBL_CODES ct ON p.TEMPERATURE = ct.CODE AND ct.TYPE = 'TEMPER'
+		 INNER JOIN TBL_CODES cs ON o.STATUS = cs.CODE AND cs.TYPE = 'ORDER'
+		 INNER JOIN TBL_USER u ON o.USERID = u.USERID
+		 WHERE o.STATUS > 0
+		   AND TO_CHAR(o.ORDERDATE, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
+		 ORDER BY O.ORDERDATE DESC, PC.PTYPE, p.PID
+	</select>
+	
+	<update id="updateOrderStatus">
+		UPDATE tbl_order SET
+				status = #{status},
+				updatedate = SYSDATE
+		 WHERE oid = #{oid}
+	</update>
+	
+</mapper>

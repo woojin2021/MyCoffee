@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+/*
+사용예:
+<input class="switch-toggle-input" type="checkbox">
+*/
+.switch-toggle {
+	box-sizing: border-box;
+	width: 4em;
+	height: 2em;
+	/* vertical-align: top; */
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	-webkit-print-color-adjust: exact;
+	color-adjust: exact;
+	print-color-adjust: exact;
+	border: 1px solid rgba(0, 0, 0, .25);
+	border-radius: 2em;
+	background-color: #fff;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: left center;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='rgba%280, 0, 0, 0.25%29'/%3e%3c/svg%3e");
+	transition: background-position .15s;
+}
+
+.switch-toggle:checked {
+	border-color: #2ecc71;
+	background-color: #2ecc71;
+	background-position: right center;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}

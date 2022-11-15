@@ -1,0 +1,87 @@
+@charset "UTF-8";
+  .answer {
+    display: none;
+    padding-bottom: 30px;
+  }
+  #faq-title {
+    font-size: 25px;
+  }
+  .faq-content {
+    border-bottom: 1px solid #e0e0e0;
+  }
+  .question {
+    font-size: 19px;
+    padding: 30px 0;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .question:hover {
+    color: #2962ff;
+  }
+  [id$="-toggle"] {
+    margin-right: 15px;
+  }
+
+/*
+ section#content ul li { display:inline-block; margin:10px; }
+ section#content div.goodsThumb img { width:200px; height:200px; }
+ section#content div.goodsName { padding:10px 0; text-align:center; }
+ section#content div.goodsName a { color:#000; }
+*/
+ section#content ul li { 
+ border:5px solid #eee; 
+ padding:10px 20px; 
+ margin-bottom:20px; 
+ }
+ section#content .orderList span { 
+ font-size:20px; 
+ font-weight:bold; 
+ display:inline-block; 
+ width:90px;
+ margin-right:10px; 
+ }
+
+ 
+ /* 토글버튼 */
+ .toggleSwitch {
+  width: 4rem;
+  height: 2rem;
+  display: block;
+  position: relative;
+  border-radius: 2rem;
+  background-color: #D8D8D8;
+  box-shadow: 0 0 1rem 3px rgba(0 0 0 / 15%);
+  cursor: pointer;
+}
+
+ /* 토글 버튼 */
+.toggleSwitch .toggleButton {
+  /* 버튼은 토글보다 작아야함  */
+  width: 1.6rem;
+  height: 1.6rem;
+  position: absolute;
+  top: 50%;
+  left: .1rem;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #fff;
+}
+
+.toggleSwitch, .toggleButton {
+  transition: all 0.2s ease-in;
+}
+
+/* 체크박스가 체크될 시 변경되는 요소 */
+.toggle:checked ~ .toggleSwitch {
+  background: #01DF3A;
+}
+
+.toggle:checked ~ .toggleSwitch .toggleButton {
+  /* 100% -> 끝위치, 2.8rem -> 버튼 크기 */
+  left: calc(100% - 1.7rem);
+  background: #fff;
+}

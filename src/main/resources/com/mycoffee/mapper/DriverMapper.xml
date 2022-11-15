@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.mycoffee.mapper.DriverMapper">
+
+		<!-- 회원가입 -->
+  		<insert id = "insert">
+  			insert into 
+  				tbl_driver (did, password, name, auth, mobile, onwork, permitted)
+  			values
+  				(#{did}, #{password}, #{name}, 0, #{mobile}, 1, 0)
+  		</insert>
+		
+  		<select id="select" resultType="com.mycoffee.domain.DriverVO">
+			select	* 
+			from	tbl_driver
+			where	did = #{did}
+		</select>
+  		
+  		<!-- 아이디 중복검사 -->
+  		<select id="idCheck" resultType="int">
+  			select	count(*) 
+  			from	tbl_driver 
+  			where	did = #{did}
+  		</select>
+  		
+  		<!-- 로그인 -->
+  		<select id="driverLogin" resultType="com.mycoffee.domain.DriverVO">
+	  		select	did, name, auth, mobile, onwork, permitted
+			from	tbl_driver
+			where	did = #{did} and password = #{password}
+  		</select>
+  		
+  		<!-- onwork -->
+  		<select id="getDriveronWork" resultType="int">
+			select	count(d.did)
+			from	tbl_driver d
+			where	d.onwork
+		</select>
+		
+  		<update id="updateStartDriver">
+			update
+				tbl_driver
+			set
+				onwork = #{onwork}, <!-- 0,1 교체? -->
+				updatedate = SYSDATE				 
+			where
+				did = #{did}
+		</update>
+		
+<!-- 		<select id="getOrder" resultType="com.mycoffee.domain.DriverOrderDTO"> -->
+<!-- 			select	o.oid, pc.pname, od.pieces, u.address -->
+<!-- 			from	tbl_order_detail od, tbl_order o, tbl_user u, tbl_product_category pc, tbl_product p -->
+<!-- 			where	pc.pcategory = p.pcategory and p.pid = od.oid and od.oid = o.oid and o.userid = u.userid -->
+<!-- 		</select> -->
+		
+		<select id="getOrder" resultType="com.mycoffee.domain.DriverOrderDTO">
+		SELECT O.OID,
+			   O.DID,
+		       O.ORDERDATE,
+		       O.STATUS,
+		       CS.DISP AS STATUSDISP,
+		       PC.PTYPE,
+		       CT.DISP AS TEMPERATUREDISP,
+		       PC.PNAME,
+		       D.PIECES,
+		       D.PRICE,
+		       O.TOTALPRICE,
+		       U.NAME,
+		       U.MOBILE,
+		       U.ADDRESS
+		  FROM TBL_ORDER O
+		 INNER JOIN TBL_ORDER_DETAIL d ON o.OID = d.OID
+		 INNER JOIN TBL_PRODUCT p ON d.PID = p.PID
+		 INNER JOIN TBL_PRODUCT_CATEGORY pc ON p.PCATEGORY = pc.PCATEGORY
+		 INNER JOIN TBL_CODES ct ON p.TEMPERATURE = ct.CODE AND ct.TYPE = 'TEMPER'
+		 INNER JOIN TBL_CODES cs ON o.STATUS = cs.CODE AND cs.TYPE = 'ORDER'
+		 INNER JOIN TBL_USER u ON o.USERID = u.USERID
+		 --INNER JOIN TBL_DRIVER d ON o.DID = d.DID
+		 WHERE ((o.did = #{did}) OR 
+                (o.did IS NULL AND o.status = 3))
+		   AND TO_CHAR(o.ORDERDATE, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
+		 ORDER BY o.status, O.ORDERDATE DESC, O.oid, PC.PTYPE, p.PID
+	</select>
+	
+	<select id="selectDriver" resultType="com.mycoffee.domain.DriverVO">
+		SELECT did, name, mobile, reason
+		  FROM tbl_driver
+		 WHERE did = #{did}
+	</select>
+	
+	<insert id="insertDriver">
+		INSERT INTO tbl_driver(did, name, mobile, reason)
+		VALUES (#{did}, #{name}, #{mobile}, #{reason})
+	</insert>
+
+	<update id="updateDriver">
+		UPDATE tbl_driver SET
+		       name = #{name},
+		       mobile = #{mobile},
+		       reason = #{reason},
+		       updatedate = SYSDATE
+		 WHERE did = #{did}
+	</update>
+	
+	<delete id="deleteDriver">
+		DELETE FROM tbl_driver
+		 WHERE did = #{did}
+	</delete>
+	
+	<update id="updatePermition">
+		UPDATE tbl_driver SET
+		       permitted = #{permitted},
+		       reason = #{reason},
+		       updatedate = SYSDATE
+		 WHERE did = #{did}
+	</update>
+	
+	<update id="updateStatus">
+		UPDATE tbl_order SET
+			   status = #{status},
+			   updatedate = SYSDATE
+		 WHERE did = #{did}
+			   
+	</update>
+	
+  </mapper>

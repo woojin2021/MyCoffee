@@ -1,0 +1,9 @@
+@charset "UTF-8";
+body {
+	margin: 0;
+}
+header {
+	background-color: rgb(166, 64, 64);
+	height: 80px;
+	margin: 0;
+}

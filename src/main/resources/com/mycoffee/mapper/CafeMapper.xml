@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycoffee.mapper.CafeMapper">
+
+	<select id="selectCafe" resultType="com.mycoffee.domain.CafeDTO">
+		SELECT * FROM tbl_cafe WHERE cafeid = #{cafeid}
+	</select>
+	
+	<update id="updateCafeOpen">
+		UPDATE tbl_cafe SET 
+		       cafeopen = #{cafeopen},
+		       updatedate = SYSDATE 
+		 WHERE cafeid = #{cafeid}  
+	</update>
+	
+	<select id="getFreeDriverCount" resultType="Integer">
+		SELECT COUNT(d.did)
+		  FROM tbl_driver d
+		 WHERE NOT EXISTS (SELECT o.did FROM tbl_order o WHERE d.did = o.did AND o.status = 4) -- 배달중
+		   AND d.onwork = 1 -- 근무중
+	</select>
+	
+	<select id="getWaitingOrderCount" resultType="Integer">
+		SELECT COUNT(oid) FROM tbl_order
+		 WHERE status = 1
+		   AND TO_CHAR(orderdate, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd') 
+	</select>
+	
+</mapper>
