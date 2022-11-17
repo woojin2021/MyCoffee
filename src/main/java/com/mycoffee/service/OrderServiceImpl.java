@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.mycoffee.domain.OrderVO;
 import com.mycoffee.domain.Order_detailVO;
+import com.mycoffee.mapper.OrderDetailMapper;
 import com.mycoffee.mapper.OrderMapper;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class OrderServiceImpl implements OrderService{
 	private OrderMapper mapper;
+	private OrderDetailMapper detailmapper;
 	
 	@Override
 	public void insertOrder(String oid, String userid, int totalprice,int status) {
@@ -27,11 +29,11 @@ public class OrderServiceImpl implements OrderService{
 		mapper.deleteorder(oid, status);
 		return 0;
 	}
-	@Override
-	public int updateorder(OrderVO order) {
-		mapper.update();
-		return 0;
-	}
+//	@Override
+//	public int updateorder(OrderVO order) {
+//		mapper.update();
+//		return 0;
+//	}
 	@Override
 	public OrderVO get() {
 		mapper.get(null);
@@ -72,24 +74,24 @@ public class OrderServiceImpl implements OrderService{
 	//detail
 	@Override
 	public List<Order_detailVO> getodlist(String oid, String pid) {
-		return (List<Order_detailVO>) mapper.getodlist(oid, pid);
+		return (List<Order_detailVO>) detailmapper.getodlist(oid, pid);
 	}
 	@Override
 	public void insertOrder_detail(String oid, String pid, int price) {
-		mapper.insertOrderdetail(oid, pid, price);
+		detailmapper.insertOrderdetail(oid, pid, price);
 	}
 	@Override
 	public Order_detailVO selectstatus_detail(String oid) {
-		return mapper.select_detail(oid);
+		return detailmapper.select_detail(oid);
 	}
 	@Override
 	public List<Order_detailVO> selectstatus_detailList(String oid) {
-		return mapper.select_detailList(oid);
+		return detailmapper.select_detailList(oid);
 	}
 
 	@Override
 	public Order_detailVO selectstatus_detail2(String oid, String pid) {
-		return mapper.select_detail2(oid, pid);
+		return detailmapper.select_detail2(oid, pid);
 	}
 	@Override
 	public void piecesupdate(String oid, String pid, int num) {
@@ -97,11 +99,11 @@ public class OrderServiceImpl implements OrderService{
 	}
 	@Override
 	public int getpieces(String oid, String pid) {
-		return mapper.getpieces(oid, pid);
+		return detailmapper.getpieces(oid, pid);
 	}
 	@Override
 	public List<String> getpidList(String oid) {
-		return mapper.getpidList(oid);
+		return detailmapper.getpidList(oid);
 	}
 	@Override
 	public void totalpriceupdate(String oid,int addprice) {
@@ -117,6 +119,6 @@ public class OrderServiceImpl implements OrderService{
 	}
 	@Override
 	public void deleteorder_detail(String oid) {
-		mapper.deleteorder_detail(oid);
+		detailmapper.deleteorder_detail(oid);
 	}
 }

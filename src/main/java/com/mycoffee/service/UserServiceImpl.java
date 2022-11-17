@@ -13,11 +13,11 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class UserServiceImpl implements UserService{
 	private UserMapper umapper;
-	@Override
-	public void register(UserVO user) {
-		log.info("register : "+ user);
-		umapper.insertUser(user);
-	}
+//	@Override
+//	public void register(UserVO user) {
+//		log.info("register : "+ user);
+//		umapper.insertUser(user);
+//	}
 
 	@Override
 	public UserVO LoginUser(String id,String passwd) {
@@ -41,10 +41,10 @@ public class UserServiceImpl implements UserService{
 		return umapper.delete(id)==1;
 	}
 
-	@Override
-	public void sele() {
-		umapper.getList();
-	}
+//	@Override
+//	public void sele() {
+//		umapper.getList();
+//	}
 
 	@Override
 	public void insertUser(UserVO user) {

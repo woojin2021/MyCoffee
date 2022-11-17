@@ -34,7 +34,7 @@
         </c:otherwise>
         </c:choose> 
         	<li class="nav-item">
-          		<a class="nav-link active" href="/user/User_Drink_Menu"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">목록</font></font></a>
+          		<a class="nav-link active" href="/menu/User_Drink_Menu"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">목록</font></font></a>
         	</li>
  		 	<li class="nav-item">
           		<a class="nav-link" href="/user/CheckSession?str=User_Shopping_Basket">

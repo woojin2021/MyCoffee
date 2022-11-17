@@ -35,12 +35,12 @@
 		});
 		
 		$("#btnApprove").on("click", function(e) {
-			itemForm.attr("action", "/driver/member/list/approve");
+			itemForm.attr("action", "/driver/manager/join/approve");
 			itemForm.submit();
 		});
 
 		$("#btnReject").on("click", function(e) {
-			itemForm.attr("action", "/driver/member/list/reject");
+			itemForm.attr("action", "/driver/manager/join/reject");
 			itemForm.submit();
 		});
 			
@@ -82,7 +82,7 @@
 	}
 </style>
 <body>
-	<%@include file="../../driver/include/listMenu.jsp" %>
+	<%@include file="include/listMenu.jsp" %>
 	
 	<div class="m-5">
 		<div class="card shadow mb-4">

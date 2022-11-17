@@ -62,7 +62,7 @@ public class UserController {
 		}
 		else
 		{
-			return "redirect:/user/User_Drink_Menu";
+			return "redirect:/menu/User_Drink_Menu";
 		}
 	}
 	//장바구니 담기 버튼에서만 현재 사용중 
@@ -94,7 +94,7 @@ public class UserController {
 		{
 			session.setAttribute("sessionId", user1);
 			log.info("signup.."+user1.getUserid());
-			return "redirect:/user/User_Drink_Menu";
+			return "redirect:/menu/User_Drink_Menu";
 		}
 	}
 	
@@ -133,7 +133,7 @@ public class UserController {
 		HttpSession session = request.getSession();
 		UserVO user=service.LoginUser(id,passwd);
 		session.setAttribute("sessionId",user);
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 	//로그아웃해서 세션도 없애기
 	@GetMapping("/logout")
@@ -143,7 +143,7 @@ public class UserController {
 		HttpSession session = request.getSession(false);
 		if(session != null)
 			session.invalidate();
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 	//회원가입
 	@PostMapping("/signup")
@@ -152,7 +152,7 @@ public class UserController {
 		log.info("signup..");
 		service.insertUser(user);
 		rttr.addFlashAttribute("result", user.getUserid());
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 	//회원 정보 수정
 	@PostMapping("/useredit")
@@ -168,9 +168,9 @@ public class UserController {
 			HttpSession session = request.getSession(false);
 			log.info(session);
 			session.setAttribute("sessionId",user);
-			return "redirect:/user/User_Drink_Menu";
+			return "redirect:/menu/User_Drink_Menu";
 		}
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 	//회원 탈퇴
 	@GetMapping("/userdelete")
@@ -185,7 +185,7 @@ public class UserController {
 			return "redirect:/user/logout";
 		}
 		//검색결과 true면 해당 회원 탈퇴
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 
 }

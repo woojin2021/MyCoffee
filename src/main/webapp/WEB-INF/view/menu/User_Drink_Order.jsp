@@ -21,7 +21,7 @@
 <meta charset="utf-8">
 </head>
 <body>
-<%@ include file="./User_menu.jsp" %>
+<%@ include file="../user/User_menu.jsp" %>
 <div class="card shadow-sm p-3 mb-5 bg-body rounded"" align="center">
 		<div class="container row"  style="border:1px solid;width:100%;margin-right:20%;margin-left:20%;padding:0px;">
 			<div class="col-md-12" style="border:1px solid;width:100%;margin:0px;padding:0px;background-color:orange;">
@@ -186,7 +186,7 @@
                	 	<div class="form-group  row">
 						<div class="col-sm-offset-2 col-sm-10 ">
 							<input type="submit" class="btn btn-outline-primary " value="장바구니에 담기" > 
-							<input type="button" class="btn btn-outline-danger "  value="취소"  onclick="location.href='/user/User_Drink_Menu'">
+							<input type="button" class="btn btn-outline-danger "  value="취소"  onclick="location.href='/menu/User_Drink_Menu'">
 						</div>
 					</div>
 				</form>

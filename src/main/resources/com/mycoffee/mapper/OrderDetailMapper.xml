@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycoffee.mapper.OrderDetailMapper">
+
+	<!-- tbl_oder_detail -->
+	<insert id="insertOrderdetail">
+		insert into
+			tbl_order_detail(oid,pid,pieces,price,registdate,updatedate)
+				values(#{oid},#{pid},1,#{price},sysdate,sysdate)
+	</insert>
+	<select id ="getodlist" resultType="com.mycoffee.domain.Order_detailVO">
+		select * from tbl_order_detail
+			where oid=#{oid} and pid={#pid}
+	</select>
+	<select id ="select_detail"  resultType="com.mycoffee.domain.Order_detailVO">
+		select * from tbl_order_detail
+			where oid=#{oid}
+	</select>
+	<select id ="select_detailList"  resultType="com.mycoffee.domain.Order_detailVO">
+		select * from tbl_order_detail
+			where oid=#{oid}
+	</select>
+	<select id="select_detail2" resultType="com.mycoffee.domain.Order_detailVO">
+		select * from tbl_order_detail
+			where oid=#{oid} and pid=#{pid}
+	</select>
+	<select id="getpieces" resultType="int">
+		select pieces from tbl_order_detail
+			where oid=#{oid} and pid=#{pid}
+	</select>
+	<select id="getpidList" resultType="String">
+		select pid from tbl_order_detail
+			where oid=#{oid}
+	</select>
+	
+	<delete id="deleteorder_detail">
+		delete tbl_order_detail where oid=#{oid}
+	</delete>
+</mapper>

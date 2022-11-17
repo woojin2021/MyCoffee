@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycoffee.mapper.DeliveryMapper">
+
+	<select id="selectDriverOrderList"
+		resultType="com.mycoffee.domain.DriverOrderVO">
+		SELECT O.OID,
+		O.DID,
+		O.ORDERDATE,
+		O.STATUS,
+		CS.DISP AS STATUSDISP,
+		PC.PTYPE,
+		CT.DISP AS TEMPERATUREDISP,
+		PC.PNAME,
+		D.PIECES,
+		D.PRICE,
+		O.TOTALPRICE,
+		U.NAME,
+		U.MOBILE,
+		U.ADDRESS
+		FROM TBL_ORDER O
+		INNER JOIN TBL_ORDER_DETAIL d ON o.OID = d.OID
+		INNER JOIN TBL_PRODUCT p ON d.PID = p.PID
+		INNER JOIN TBL_PRODUCT_CATEGORY pc ON p.PCATEGORY = pc.PCATEGORY
+		INNER JOIN TBL_CODES ct ON p.TEMPERATURE = ct.CODE AND ct.TYPE = 'TEMPER'
+		INNER JOIN TBL_CODES cs ON o.STATUS = cs.CODE AND cs.TYPE = 'ORDER'
+		INNER JOIN TBL_USER u ON o.USERID = u.USERID
+		--INNER JOIN TBL_DRIVER d ON o.DID = d.DID
+		WHERE ((o.did = #{did}) OR
+		(o.did IS NULL AND o.status = 3))
+		AND TO_CHAR(o.ORDERDATE, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
+		ORDER BY o.status, O.ORDERDATE DESC, O.oid, PC.PTYPE, p.PID
+	</select>
+
+	<update id="updateOrderStatus">
+		UPDATE tbl_order SET
+			   did = #{did},
+			   status = #{status},
+			   updatedate = SYSDATE
+		 WHERE oid = #{oid}
+	</update>
+
+</mapper>

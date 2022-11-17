@@ -10,7 +10,7 @@ import com.mycoffee.domain.Order_detailVO;
 public interface OrderService {
 	public void insertOrder(String oid, String userid, int totalprice,int status);
 	public int deleteorder(String oid, int status);
-	public int updateorder(OrderVO order);
+//	public int updateorder(OrderVO order);
 	public int countlist(String userid);
 	public int countstatus(String userid, int status);
 	public int countstatus2(String userid);

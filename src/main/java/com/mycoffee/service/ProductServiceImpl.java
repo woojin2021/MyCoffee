@@ -10,7 +10,7 @@ import com.mycoffee.domain.CodesVO;
 import com.mycoffee.domain.ProductJoinVO;
 import com.mycoffee.domain.Product_CategoryVO;
 import com.mycoffee.mapper.CodesMapper;
-import com.mycoffee.mapper.ProductMapper;
+import com.mycoffee.mapper.ProductViewMapper;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j;
 @AllArgsConstructor
 public class ProductServiceImpl implements ProductService{
 	
-	private ProductMapper mapper;
+	private ProductViewMapper mapper;
 	private CodesMapper codesMapper;
 	
 	@Override
