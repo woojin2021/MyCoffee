@@ -18,7 +18,7 @@ java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy년 MM월 dd
     </ul>
     
     <form class="form-inline my-2 my-lg-0">
-      <a class="form-control mr-sm-2" href="/driver/logout.do">로그아웃</a>
+      <a class="form-control mr-sm-2 btn btn-dark" href="/driver/logout.do">로그아웃</a>
     </form>
     
   </div>

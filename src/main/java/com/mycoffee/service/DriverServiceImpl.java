@@ -4,7 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycoffee.domain.DriverDTO;
 import com.mycoffee.domain.DriverInfo;
@@ -39,6 +43,9 @@ public class DriverServiceImpl implements DriverService{
 	@Override
 	public boolean modify(DriverDTO driver) {
 		log.info(driver);
+		if (driver.getPassword() != null && driver.getPassword().trim().length() == 0) {
+			driver.setPassword(null);
+		}
 		return drivermapper.update(driver) > 0;
 	}
 
@@ -87,13 +94,26 @@ public class DriverServiceImpl implements DriverService{
 	}
 
 	@Override
-	public List<DriverInfo> getOrder(String did) {
+	public List<DriverInfo> getOrder(String did, Model model) {
+		List<DriverOrderVO> datas = deliverymapper.selectDriverOrderList(did);
+		List<DriverInfo> oList = getOrder(datas);
+		
+		model.addAttribute("order", oList);
+		return oList;
+	}
+	
+	/**
+	 * tbl_order_detail부분을 압축해서 주문정보를 1줄로 표시
+	 * @param datas
+	 * @return
+	 */
+	private List<DriverInfo> getOrder(List<DriverOrderVO> datas) {
 		List<DriverInfo> oList = new ArrayList<>();
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
 		String oid = "";
 		DriverInfo temp = null;
-		for (DriverOrderVO data : deliverymapper.selectDriverOrderList(did)) {
+		for (DriverOrderVO data : datas) {
 			if (oid.equals(data.getOid()) == false) {
 				temp = new DriverInfo();
 				temp.setOid(data.getOid());
@@ -114,6 +134,12 @@ public class DriverServiceImpl implements DriverService{
 		return oList;
 	}
 	
+	/**
+	 * tbl_order_detail >> [수량] 제품명
+	 * ex) [2] 아이스_카라멜 마키아또
+	 * @param data
+	 * @return
+	 */
 	private String getOrderSummary(DriverOrderVO data) {
 		
 		String summary = "[";	// [2] 카라멜 마키아또
@@ -128,25 +154,29 @@ public class DriverServiceImpl implements DriverService{
 		
 	}
 
-//	@Override
-//	public DriverVO driverLogin(String did, String password) {
-//		DriverVO vo = new DriverVO();
-//		vo.setDid(did);
-//		vo.setPassword(password);
-//		return drivermapper.driverLogin(did, password);
-//	}
+	@Override
+	public void checkoutOrder(String oid, String did, RedirectAttributes rttr, Model model) {
+		if (deliverymapper.updateOrderToCheckout(oid, did) == 0) {
+			rttr.addFlashAttribute("checkout", "다른 배달원이 접수한 주문입니다.");
+		}
+		getOrder(did, model);
+	}
 
-//	@Override
-//	public boolean driverStatus(DriverInfo driver) {
-//		
-//		if(driver.getStatus() == 3) {
-//			driver.setStatus(4);
-//			drivermapper.updateStatus(driver);
-//		}else {
-//			driver.setStatus(5);
-//			drivermapper.updateStatus(driver);
-//		}
-//		return ;
-//	}
+	@Override
+	public void completeOrder(String oid, String did, RedirectAttributes rttr, Model model) {
+		if (deliverymapper.updateOrderToComplete(oid, did) == 0) {
+			rttr.addFlashAttribute("checkout", "취소가 된 주문입니다..");
+		}
+		getOrder(did, model);
+	}
 
+	@Override
+	public List<DriverInfo> getUncheckedOrder() {
+		List<DriverOrderVO> datas = deliverymapper.selectUncheckedOrderList();
+		List<DriverInfo> oList = getOrder(datas);
+		
+		return oList;
+	}
+
+	
 }

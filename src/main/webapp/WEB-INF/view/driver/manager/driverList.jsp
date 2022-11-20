@@ -20,6 +20,37 @@
 		const itemForm = $("#itemForm");
 		const modal = $("#registerModal");
 		
+		// tab click
+		$(".nav-item").on("click", "a", function(e){
+			//console.log(this);
+			const tab = $(this);
+			// activate tab
+			const type = tab.data("type");
+			$(".nav-link").each(function(){ this.classList.remove("active"); });
+			tab.addClass("active");
+			// filter data
+			$("#tbody-drivers tr").each(function(){
+				const tr = $(this);
+				const status = tr.data("status");
+				//console.log(status);
+				tr.removeClass("hide-row")
+				if (type == "request") {
+					if (status != 1) {
+						tr.addClass("hide-row");
+					}
+				} else if (type == "waiting") {
+					if (status != 3) {
+						tr.addClass("hide-row");
+					}
+				} else if (type == "delivery") {
+					if (status != 4) {
+						tr.addClass("hide-row");
+					}
+				}
+			});
+		});
+		
+		// 등록승인 click
 		$(".showItem").on("click", "a", function(e){
 			var did = $(this).data("did");
 			console.log(did);
@@ -33,17 +64,18 @@
 				modal.modal("show");
 			});
 		});
-		
+		// 승인 click
 		$("#btnApprove").on("click", function(e) {
 			itemForm.attr("action", "/driver/manager/join/approve");
 			itemForm.submit();
 		});
-
+		// 거부 click
 		$("#btnReject").on("click", function(e) {
 			itemForm.attr("action", "/driver/manager/join/reject");
 			itemForm.submit();
 		});
-			
+
+		
 	});
 	
 	function getDriver2(did, callback, error){
@@ -80,15 +112,30 @@
 	.modal-body, .modal-footer {
 		background-color: rgb(200, 200, 200);
 	}
+	.hide-row {
+		display: none;
+	}
 </style>
 <body>
 	<%@include file="include/listMenu.jsp" %>
 	
 	<div class="m-5">
 		<div class="card shadow mb-4">
-			<div class="card-header py-3">
-				<h6 class="m-0 font-weight-bold text-primary">주문 목록</h6>
-				
+			<div class="card-header">
+				<ul class="nav nav-tabs card-header-tabs">
+					<li class="nav-item">
+						<a class="nav-link active" href="#" data-type="all">전체</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" data-type="request">등록신청</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#" data-type="waiting">대기중</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" data-type="delivery">배달중</a>
+					</li>
+				</ul>
 			</div>
 			<div class="card-body">
 				<div class="table-responsive">
@@ -102,18 +149,18 @@
 							</tr>
 						</thead>
 			
-						<tbody>
+						<tbody id="tbody-drivers">
 							<c:forEach items="${list}" var="board">
-								<tr>
+								<tr data-status="${board.status}">
 									<td>${board.name}</td>
 									<td>${board.address}</td>
 									<td>${board.reserved} / ${board.completed} / ${board.total}</td>
 									<td class="showItem">
 										<c:choose>
 											<c:when test="${board.permitted == 0}">
-													<a href="#" data-did="${board.did}"><c:out value="${board.status}" /></a>
+												<a href="#" data-did="${board.did}">${board.statusDisp}</a>
 											</c:when>
-											<c:otherwise>${board.status}</c:otherwise>
+											<c:otherwise>${board.statusDisp}</c:otherwise>
 										</c:choose>
 									</td>
 								</tr>

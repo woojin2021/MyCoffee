@@ -22,7 +22,9 @@
 		UPDATE tbl_driver SET
 		       name = #{name},
 		       mobile = #{mobile},
-		       reason = #{reason},
+		       <if test="password != null">
+		       password = password,
+		       </if>
 		       updatedate = SYSDATE
 		 WHERE did = #{did}
 	</update>
