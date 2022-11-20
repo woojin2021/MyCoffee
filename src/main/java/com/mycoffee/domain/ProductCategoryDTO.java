@@ -2,7 +2,6 @@ package com.mycoffee.domain;
 
 import java.util.Date;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

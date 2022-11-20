@@ -77,7 +77,7 @@ CREATE TABLE tbl_driver (
   mobile CHAR(13) NOT NULL,
   onwork NUMBER(1) DEFAULT 0 NOT NULL, --0:offline, 1:online
   permitted NUMBER(1) DEFAULT 0 NOT NULL, --0:미승인, 1:승인, 2:승인거부
-  reason VARCHAR2(200) NOT NULL,
+  reason VARCHAR2(200),
   registdate DATE DEFAULT SYSDATE NOT NULL,
   updatedate DATE DEFAULT SYSDATE NOT NULL
 );

@@ -37,6 +37,18 @@ public class OrderController
 {
 	OrderService service;
 	ProductService pservice;
+
+	@PostMapping("/User_Order")
+	public String get2(HttpServletRequest request)
+	{
+		String category=request.getParameter("category");
+		String tem=request.getParameter("tem");
+		String cap=request.getParameter("cap");
+		return "redirect:/user/CheckSession2?str=InsertOrder&category="+category+"&tem="+tem +"&cap="+cap;
+		
+	}
+	
+	
 	@GetMapping("/InsertOrder")
 	public String insertorder(@RequestParam("category")String category,@RequestParam("tem") int tem,@RequestParam("cap") int cap,Model model,HttpServletRequest request)
 	{ 
@@ -60,7 +72,7 @@ public class OrderController
 			String oid = formatter.format(now);
 			service.insertOrder(oid,user.getUserid(),p.getPrice(),0);
 			service.insertOrder_detail(oid, p.getPid(), p.getPrice());
-			return "redirect:/user/User_Drink_Menu";
+			return "redirect:/menu/User_Drink_Menu";
 		}
 		//1.주문내역이 있고 현재 오더 중에 주문 작성(0) 상태가 있다면 oid 생성 x
 		else if(service.countlist(user.getUserid()) !=0 &&service.countstatus(user.getUserid(), 0) !=0)
@@ -91,9 +103,9 @@ public class OrderController
 				service.insertOrder_detail(order.getOid(), p.getPid(), p.getPrice());
 				addprice=order.getTotalprice()+p.getPrice();
 				service.totalpriceupdate(order.getOid(), addprice);
-				return "redirect:/user/User_Drink_Menu";
+				return "redirect:/menu/User_Drink_Menu";
 			}
-			return "redirect:/user/User_Drink_Menu";
+			return "redirect:/menu/User_Drink_Menu";
 		}
 		//3.주문내역이 있고 오더 중 주문 작성 상태가 없어서 oid 생성 필요
 		else if(service.countlist(user.getUserid()) !=0 &&service.countstatus(user.getUserid(), 0) ==0)
@@ -104,9 +116,9 @@ public class OrderController
 			System.out.println(oid);
 			service.insertOrder(oid,user.getUserid(),p.getPrice(),0);
 			service.insertOrder_detail(oid, p.getPid(), p.getPrice());
-			return "redirect:/user/User_Drink_Menu";
+			return "redirect:/menu/User_Drink_Menu";
 		}
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 	//장바구니 들어갈때
 	@GetMapping("/User_Shopping_Basket")
@@ -197,7 +209,7 @@ public class OrderController
 		//주문완료시 order데이트 값 줘야함.
 		service.orderdateupdate(oid);
 		
-		return "redirect:/user/User_Drink_Menu";
+		return "redirect:/menu/User_Drink_Menu";
 	}
 	
 	//장바구니 내용 취소

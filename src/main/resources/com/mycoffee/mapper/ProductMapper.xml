@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycoffee.mapper.ProductMapper">
-	<select id="getlist" resultType="com.mycoffee.domain.Product_CategoryVO">
-		select pc.* 
-		  from tbl_product_category pc
-		 where pc.ptype = #{ptype}
-		   and exists (select 1 from tbl_product p where p.pcategory = pc.pcategory and onsale = 1)
+
+	<select id="selectProduct" resultType="com.mycoffee.domain.ProductDTO">
+		SELECT pid, pcategory, temperature, capacity, price, onsale, registdate, updatedate
+		  FROM tbl_product
+		 WHERE pid = #{pid}
 	</select>
-	<select id="get" resultType="com.mycoffee.domain.Product_CategoryVO">
-		select * from tbl_product_category
-			where pcategory=#{category}
+
+	<insert id="insertProduct">
+		INSERT INTO tbl_product(pid, pcategory, temperature, capacity, price, onsale)
+		VALUES (#{pid}, #{pcategory}, #{temperature}, #{capacity}, #{price}, #{onsale})
+	</insert>
+
+	<update id="updateProduct">
+		UPDATE tbl_product SET
+		       pcategory = #{pcategory},
+		       temperature = #{temperature},
+		       capacity = #{capacity},
+		       price = #{price},
+		       onsale = #{onsale},
+		       updatedate = SYSDATE
+		 WHERE pid = #{pid}
+	</update>
+	
+	<delete id="deleteProduct">
+		DELETE FROM tbl_product
+		 WHERE pid = #{pid}
+	</delete>
+	
+	<select id="selectProductInCategory" resultType="com.mycoffee.domain.ProductDTO">
+		SELECT pid, pcategory, temperature, capacity, price, onsale, registdate, updatedate
+		  FROM tbl_product
+		 WHERE pcategory = #{pcategory}
 	</select>
-	<select id="getcount" resultType="int">
-		select count(*) from tbl_proudct_category
-	</select>
-	<select id="getlist1" resultType="com.mycoffee.domain.ProductJoinVO">
-		select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
-		pid ,temperature ,capacity ,price ,onsale
-		from tbl_product_category pc join tbl_product p on pc.pcategory=p.pcategory
-		where pc.pcategory=#{category}
-		  and p.onsale = 1
-	</select>
-	<select id="get2" resultType="com.mycoffee.domain.ProductJoinVO">
-			select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
-		pid ,temperature ,capacity ,price ,onsale
-		from tbl_product_category pc join tbl_product p on pc.pcategory=p.pcategory
-		where pc.pcategory=#{category} and temperature =#{tem} and capacity =#{cap}
-	</select>
-	<select id="get3" resultType="com.mycoffee.domain.ProductJoinVO">
-		select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
-		pid ,temperature ,capacity ,price ,onsale
-		from tbl_product_category pc join tbl_product p on pc.pcategory=p.pcategory
-		where pid =#{pid}
-	</select>
+	
+	<delete id="deleteProductInCategory">
+		DELETE FROM tbl_product
+		 WHERE pcategory = #{pcategory}
+	</delete>
+	
 </mapper>

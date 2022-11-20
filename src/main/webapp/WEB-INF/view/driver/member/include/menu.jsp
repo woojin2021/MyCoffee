@@ -70,11 +70,11 @@ $(document).ready(function(){
 		<div class="navbar-collapse collapse" id="navbarColor01" style="text-align: right;">
 			<ul class="navbar-nav"  style="">
 				<li class="nav-item" active>
-					<a class="nav-link" href="./edit">회원정보</a>
+					<a class="nav-link" href="/driver/member/edit">회원정보</a>
 				</li>
 	      	
 				<li class="nav-item">
-					<a class="nav-link" href="logout.do">로그아웃</a>
+					<a class="nav-link" href="/driver/logout.do">로그아웃</a>
 				</li>
 			</ul>
 		</div>

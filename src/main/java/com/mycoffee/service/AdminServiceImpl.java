@@ -24,7 +24,8 @@ import com.mycoffee.domain.UserVO;
 import com.mycoffee.mapper.CafeMapper;
 import com.mycoffee.mapper.CodesMapper;
 import com.mycoffee.mapper.OrderViewMapper;
-import com.mycoffee.mapper.ProductInfoMapper;
+import com.mycoffee.mapper.ProductCategoryMapper;
+import com.mycoffee.mapper.ProductMapper;
 import com.mycoffee.mapper.UserMapper;
 
 import lombok.AllArgsConstructor;
@@ -37,7 +38,8 @@ public class AdminServiceImpl implements AdminService {
 
 	private ServletContext servletContext;
 	
-	private ProductInfoMapper productMapper;
+	private ProductCategoryMapper categoryMapper;
+	private ProductMapper productMapper;
 	private CodesMapper codesMapper;
 	private CafeMapper cafeMapper;
 	private OrderViewMapper orderMapper;
@@ -52,7 +54,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public List<ProductCategoryDTO> getCategoryList(int ptype) {
 		log.info("getCategoryList: [ptype=" + ptype + "]");		
-		return productMapper.selectCategoryByPtype(ptype);
+		return categoryMapper.selectCategoryByPtype(ptype);
 	}
 
 	@Override
@@ -64,7 +66,7 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public ProductCategoryDTO getCategory(String pcategory) {
 		log.info("getCategory: [pcategory=" + pcategory + "]");		
-		return productMapper.selectCategory(pcategory);
+		return categoryMapper.selectCategory(pcategory);
 	}
 
 	@Override
@@ -86,7 +88,7 @@ public class AdminServiceImpl implements AdminService {
 			e.printStackTrace();
 		}
 		
-		return productMapper.insertCategory(dto);
+		return categoryMapper.insertCategory(dto);
 	}
 
 	@Override
@@ -111,7 +113,7 @@ public class AdminServiceImpl implements AdminService {
 			dto.setImagefile(uploader.getRealFileName());
 		}
 		
-		int result = productMapper.updateCategory(dto);
+		int result = categoryMapper.updateCategory(dto);
 		if (result == 1) {
 			if (oldImageFile != null && !oldImageFile.isEmpty()) {
 				log.info("deleteOldFile:" + oldImageFile);
@@ -126,7 +128,7 @@ public class AdminServiceImpl implements AdminService {
 	public int removeCategory(String pcategory) {
 		log.info("removeCategory: [pcategory=" + pcategory + "]");
 		productMapper.deleteProductInCategory(pcategory);
-		return  productMapper.deleteCategory(pcategory);
+		return  categoryMapper.deleteCategory(pcategory);
 	}
 
 	@Override

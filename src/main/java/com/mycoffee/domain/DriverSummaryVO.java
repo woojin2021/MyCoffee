@@ -3,7 +3,7 @@ package com.mycoffee.domain;
 import lombok.Data;
 
 @Data
-public class BoardVO {
+public class DriverSummaryVO {
 	
 	private String did;
 	private String name;

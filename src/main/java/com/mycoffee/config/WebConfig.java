@@ -1,16 +1,9 @@
 package com.mycoffee.config;
 
-
-import javax.servlet.Filter;
-import javax.servlet.FilterRegistration;
 import javax.servlet.MultipartConfigElement;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration.Dynamic;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-
-import com.mycoffee.filter.AuthorizationFilter;
 
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer{
 

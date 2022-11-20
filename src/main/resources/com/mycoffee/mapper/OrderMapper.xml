@@ -3,26 +3,34 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycoffee.mapper.OrderMapper">
+
+	<!-- tbl_oder -->
 	<insert id="insertOrder">
 		insert into
 				tbl_order (oid,userid,totalprice,status,registdate,updatedate)
 			values
 				(#{oid}, #{userid}, #{totalprice},#{status},sysdate,sysdate)
 	</insert>
-	<delete id="deleteorder">
-		delete tbl_order where oid=#{oid} and status=#{status}
-	</delete>
-	<select id="getlist" resultType="com.mycoffee.domain.OrderVO">
-		<![CDATA[select * from tbl_order
-		]]>
-	</select>
+	
 	<select id="get" resultType="com.mycoffee.domain.OrderVO">
 		select * from tbl_order
 			where pcategory=#{category}
 	</select>
+	<select id="selectstatus0" resultType="com.mycoffee.domain.OrderVO">
+		select * from tbl_order
+		 where status=0 and userid=#{userid}
+	</select>
+	<select id="getlist" resultType="com.mycoffee.domain.OrderVO">
+		<![CDATA[select * from tbl_order
+		]]>
+	</select>
 	<select id="getlist2" resultType="com.mycoffee.domain.OrderVO">
 		select * from tbl_order
 			where userid=#{userid} and status>0
+	</select>
+	<select id="selectstatus0List" resultType="com.mycoffee.domain.OrderVO">
+		select * from tbl_order
+		 where status=0 and userid=#{userid}
 	</select>
 	
 	<select id="countlist" resultType="int">
@@ -37,20 +45,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from tbl_order
 			where userid=#{userid} and status>0
 	</select>
-	<select id="selectstatus">
-		select * from tbl_order
-			where userid=#{userid}
-	</select>
-	<select id="selectstatus0" resultType="com.mycoffee.domain.OrderVO">
-		select * from tbl_order
-		 where status=0 and userid=#{userid}
-	</select>
-	<select id="selectstatus0List" resultType="com.mycoffee.domain.OrderVO">
-		select * from tbl_order
-		 where status=0 and userid=#{userid}
-	</select>
 	
-	<!-- oder-detail -->
+	<update id="piecesupdate">
+		update tbl_order_detail
+			set pieces =#{num}
+		where oid=#{oid} and pid=#{pid}
+	</update>
+	<update id="totalpriceupdate">	
+		update tbl_order
+			set totalprice =#{addprice}
+		where oid=#{oid}
+	</update>
+	<update id="statusupdate">
+		update tbl_order
+			set status=#{status}
+			where oid=#{oid}
+	</update>
+	<update id="orderdateupdate">
+		update tbl_order
+			set orderdate=sysdate
+			where oid=#{oid}
+	</update>
+	
+	<delete id="deleteorder">
+		delete tbl_order where oid=#{oid} and status=#{status}
+	</delete>
+	
+	<!-- tbl_oder_detail -->
 	<insert id="insertOrderdetail">
 		insert into
 			tbl_order_detail(oid,pid,pieces,price,registdate,updatedate)
@@ -81,26 +102,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			where oid=#{oid}
 	</select>
 	
-	<update id="piecesupdate">
-		update tbl_order_detail
-			set pieces =#{num}
-		where oid=#{oid} and pid=#{pid}
-	</update>
-	<update id="totalpriceupdate">	
-		update tbl_order
-			set totalprice =#{addprice}
-		where oid=#{oid}
-	</update>
-	<update id="statusupdate">
-		update tbl_order
-			set status=#{status}
-			where oid=#{oid}
-	</update>
-	<update id="orderdateupdate">
-		update tbl_order
-			set orderdate=sysdate
-			where oid=#{oid}
-	</update>
 	<delete id="deleteorder_detail">
 		delete tbl_order_detail where oid=#{oid}
 	</delete>

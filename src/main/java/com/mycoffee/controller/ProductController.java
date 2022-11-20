@@ -24,7 +24,7 @@ import lombok.extern.log4j.Log4j;
 @WebAppConfiguration
 @Controller
 @Log4j
-@RequestMapping("/user/*")
+@RequestMapping("/menu/*")
 @AllArgsConstructor
 public class ProductController {
 	private ProductService service;
@@ -69,18 +69,9 @@ public class ProductController {
 		model.addAttribute("list",service.getlist1(category));
 		request.setAttribute("list", service.getlist1(category));
 	}
-	@PostMapping("/User_Order")
-	public String get2(HttpServletRequest request)
-	{
-		String category=request.getParameter("category");
-		String tem=request.getParameter("tem");
-		String cap=request.getParameter("cap");
-		return "redirect:/user/CheckSession2?str=InsertOrder&category="+category+"&tem="+tem +"&cap="+cap;
-		
-	}
 	
 	//메뉴화면
-	@GetMapping(value = "/async/product/list/{ptype}", produces = {MediaType.APPLICATION_JSON_VALUE})
+	@GetMapping(value = "/product/list/{ptype}", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<List<Product_CategoryVO>> getProductList(@PathVariable("ptype") Integer ptype) {
 		log.info("getProductList");
 		return ResponseEntity.ok(service.getlist(ptype));

@@ -2,10 +2,10 @@ package com.mycoffee.domain;
 
 import java.util.Date;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class DriverOrderDTO {
+@Getter
+public class DriverOrderVO {
 
 //	주문번호, 주문내역(음료 이름),수량, 주소, 
 	

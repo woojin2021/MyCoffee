@@ -25,7 +25,7 @@
 		
 			<div class="col-md-4 col-md-offset-4">
 				
-				<form id="login_form" method="post">
+				<form id="login_form" action="/driver/login" method="post">
 				
 					<div class="form-group">
 						<label for="inputID" class="sr-only">아이디</label> 
@@ -40,8 +40,8 @@
 					</div>
 					
 					<div class="login_button_wrap">
-						<input type = "button" class="login_button" value="로그인">
-						<a href="join" />신규 등록
+						<input type = "submit" class="login_button" value="로그인">
+						<a href="member/join">신규 등록</a>
 					</div>
 					
 				</form>
@@ -56,13 +56,13 @@
 
 <script>
 /* 로그인 버튼 클릭 메서드 */
-$(".login_button").click(function(){
+//$(".login_button").click(function(){
     
 //     alert("로그인 버튼 작동");
 
 	 /* 로그인 메서드 서버 요청 */
-    $("#login_form").attr("action", "./login");
-    $("#login_form").submit();
-});
+//    $("#login_form").attr("action", "./login");
+//    $("#login_form").submit();
+//});
 </script>
 </html>

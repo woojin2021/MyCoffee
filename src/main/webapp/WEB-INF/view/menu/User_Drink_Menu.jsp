@@ -27,13 +27,13 @@
 		
 	// 선택한 카테고리의 상품 목록 표시
 	function getProductList(category) {
-		$.get("/user/async/product/list/" + category, function(result) {
+		$.get("/menu/product/list/" + category, function(result) {
 			let buffer = '';
 			//console.log(result);
 			for (let i = 0; i < result.length; i++) {
 				buffer += '<div class="col-sm-3" style="width:250px;height:350px;border:1px solid;margin-left:10px;margin-right:10px;" >';
 				buffer += '<div class ="col" style="margin-top:10px;">';
-				buffer += '<a href="/user/User_One_Drink?category=' + result[i].pcategory + '"><img src="/resources/img/' + result[i].imagefile + '" style="width:200px; height:250px" align="center"></a>';
+				buffer += '<a href="/menu/User_One_Drink?category=' + result[i].pcategory + '"><img src="/resources/img/' + result[i].imagefile + '" style="width:200px; height:250px" align="center"></a>';
 				buffer += '<div>';
 				buffer += '<p style="line-height:1">' + result[i].pname + '<p>';
 				buffer += '<p style="line-height:1">설명 : ' + result[i].description + '<p>';
@@ -52,7 +52,7 @@
 <title>Drink Menu</title>
 </head>
 <body>
-<%@ include file="./User_menu.jsp" %>
+<%@ include file="../user/User_menu.jsp" %>
 <div class="container">
 <div class="card text-center">
   <div class="card-header" style="background-color:brown;">
@@ -107,7 +107,7 @@
   		<label class="btn btn-outline-primary" for="btnradio4">Smoothi</label>
   	</li> -->
   	<c:forEach var="productType" items="${ptypeList}">
-  	<li class="nav-item" onclick="location.href='/user/User_Drink_Menu?ptype=${productType.code}'">
+  	<li class="nav-item" onclick="location.href='/menu/User_Drink_Menu?ptype=${productType.code}'">
   		<input type="radio" class="btn-check" name="btnradio" value="${productType.code}" ${productType.code == ptype ? "checked" : ""}>
   		<label class="btn btn-outline-primary" for="btnradio4">${productType.disp}</label>
   	</li>
@@ -120,7 +120,7 @@
 			<c:forEach items="${list}" var="product">
 				<div class="col-sm-4" style="width:250px;height:350px;border:1px solid;margin-left:10px;margin-right:10px;" >
 					<div class ="col" style="margin-top:10px;">
-						<a href="/user/User_One_Drink?category=<c:out value="${product.pcategory}" />"><img src="../resources/img/<c:out value="${product.imagefile}"/>" style="width:200px; height:250px" align="center"></a>
+						<a href="/menu/User_One_Drink?category=<c:out value="${product.pcategory}" />"><img src="../resources/img/<c:out value="${product.imagefile}"/>" style="width:200px; height:250px" align="center"></a>
 						<div>
 							<p style="line-height:1"><c:out value="${product.pcategory}" /><p>
 							<p style="line-height:1">설명 : <c:out value="${product.description}"/><p>

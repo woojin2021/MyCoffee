@@ -44,7 +44,7 @@
     }
 </style>
 <body>
-	<%@include file="../../driver/include/menu.jsp" %>   
+	<%@include file="include/menu.jsp" %>   
 
 	<div class="container mt-3 driver-orders">
 	<c:set var="newOrder" value="0"/>

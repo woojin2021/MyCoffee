@@ -4,14 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mycoffee.domain.DriverDTO;
 import com.mycoffee.domain.DriverInfo;
-import com.mycoffee.domain.DriverOrderDTO;
+import com.mycoffee.domain.DriverOrderVO;
 import com.mycoffee.domain.DriverVO;
-import com.mycoffee.domain.OrderOfTodyVO;
-import com.mycoffee.domain.OrderrInfo;
+import com.mycoffee.mapper.DeliveryMapper;
 import com.mycoffee.mapper.DriverMapper;
 
 import lombok.AllArgsConstructor;
@@ -22,49 +21,41 @@ import lombok.extern.log4j.Log4j;
 @Service
 public class DriverServiceImpl implements DriverService{
 
-	@Autowired
 	private DriverMapper drivermapper;
+	private DeliveryMapper deliverymapper;
+
 	
 	@Override
-	public void memberJoin(DriverVO driver) throws Exception {
+	public int memberJoin(DriverDTO driver) throws Exception {
+		return drivermapper.insert(driver);
+	}
 
-		drivermapper.insert(driver);
-		
+	@Override
+	public DriverVO getDriver(String did) {
+		log.info("getDriver: [pid=" + did + "]");
+		return drivermapper.selectDriver(did);
+	}
+
+	@Override
+	public boolean modify(DriverDTO driver) {
+		log.info(driver);
+		return drivermapper.update(driver) > 0;
+	}
+
+	@Override
+	public boolean delete(String did) {
+		log.info(did);
+		return drivermapper.delete(did) > 0;
 	}
 
 	@Override
 	public int idCheck(String did) throws Exception{
-		
 		return drivermapper.idCheck(did);
 	}
 
 	@Override
-	public int getDriveronWork() {
-		
-		return drivermapper.getDriveronWork();
-	}
-
-	@Override
-	public boolean startDriver(String did) {
-		
-		log.info("startDriver");
-		DriverVO dvo = new DriverVO();
-		dvo.setDid(did);
-		dvo.setOnwork(1);
-		drivermapper.updateStartDriver(dvo);
-		return workDriver(did);
-	}
-
-	@Override
-	public boolean endDriver(String did) {
-		
-		log.info("endDriver");
-		DriverVO dvo = new DriverVO();
-		dvo.setDid(did);
-		dvo.setOnwork(0);
-		drivermapper.updateStartDriver(dvo);
-		
-		return workDriver(did);
+	public DriverVO driverLogin(DriverDTO driver) throws Exception {
+		return drivermapper.driverLogin(driver);	
 	}
 
 	@Override
@@ -75,13 +66,34 @@ public class DriverServiceImpl implements DriverService{
 	}
 
 	@Override
+	public boolean startDriver(String did) {
+		log.info("startDriver");
+		DriverDTO dvo = new DriverDTO();
+		dvo.setDid(did);
+		dvo.setOnwork(1);
+		drivermapper.updateOnWork(dvo);
+		return workDriver(did);
+	}
+
+	@Override
+	public boolean endDriver(String did) {
+		log.info("endDriver");
+		DriverDTO dvo = new DriverDTO();
+		dvo.setDid(did);
+		dvo.setOnwork(0);
+		drivermapper.updateOnWork(dvo);
+		
+		return workDriver(did);
+	}
+
+	@Override
 	public List<DriverInfo> getOrder(String did) {
 		List<DriverInfo> oList = new ArrayList<>();
 		
 		SimpleDateFormat formatter = new SimpleDateFormat("hh:mm");
 		String oid = "";
 		DriverInfo temp = null;
-		for (DriverOrderDTO data : drivermapper.getOrder(did)) {
+		for (DriverOrderVO data : deliverymapper.selectDriverOrderList(did)) {
 			if (oid.equals(data.getOid()) == false) {
 				temp = new DriverInfo();
 				temp.setOid(data.getOid());
@@ -102,7 +114,7 @@ public class DriverServiceImpl implements DriverService{
 		return oList;
 	}
 	
-	private String getOrderSummary(DriverOrderDTO data) {
+	private String getOrderSummary(DriverOrderVO data) {
 		
 		String summary = "[";	// [2] 카라멜 마키아또
 		summary += data.getPieces() + "]";
@@ -116,47 +128,13 @@ public class DriverServiceImpl implements DriverService{
 		
 	}
 
-	@Override
-	public DriverVO driverLogin(DriverVO driver) throws Exception {
-		
-		return drivermapper.driverLogin(driver);	
-	}
-	
-	@Override
-	public DriverVO getDriver(String did) {
-		log.info("getDriver: [pid=" + did + "]");
-		return drivermapper.selectDriver(did);
-	}
-
-	@Override
-	public void approveRegist(DriverVO driver) {
-		driver.setPermitted(1);  // 1:등록 승인
-		drivermapper.updatePermition(driver);
-	}
-
-	@Override
-	public void rejectRegist(DriverVO driver) {
-		driver.setPermitted(2);  // 2:승인 거부
-		drivermapper.updatePermition(driver);
-	}
-
-	@Override
-	public DriverVO driverLogin(String did, String password) {
-
-		return drivermapper.driverLogin(did, password);
-	}
-
-	@Override
-	public boolean modify(DriverVO driver) {
-		log.info(driver);
-		return drivermapper.updateDriver(driver);
-	}
-
-	@Override
-	public boolean delete(String did) {
-		log.info(did);
-		return drivermapper.deleteDriver(did);
-	}
+//	@Override
+//	public DriverVO driverLogin(String did, String password) {
+//		DriverVO vo = new DriverVO();
+//		vo.setDid(did);
+//		vo.setPassword(password);
+//		return drivermapper.driverLogin(did, password);
+//	}
 
 //	@Override
 //	public boolean driverStatus(DriverInfo driver) {
