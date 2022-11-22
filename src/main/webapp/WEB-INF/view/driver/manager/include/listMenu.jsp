@@ -7,7 +7,6 @@ java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy년 MM월 dd
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">배달원 현황</a>
 
-  <div class="collapse navbar-collapse" id="navbarColor01">
   
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
@@ -18,8 +17,7 @@ java.text.SimpleDateFormat sf = new java.text.SimpleDateFormat("yyyy년 MM월 dd
     </ul>
     
     <form class="form-inline my-2 my-lg-0">
-      <a class="form-control mr-sm-2" href="/driver/logout.do">로그아웃</a>
+      <a class="form-control mr-sm-2 btn btn-light" href="/driver/logout.do">로그아웃</a>
     </form>
     
-  </div>
 </nav>

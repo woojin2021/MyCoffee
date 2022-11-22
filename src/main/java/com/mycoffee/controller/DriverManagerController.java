@@ -1,13 +1,20 @@
 package com.mycoffee.controller;
 
+import java.util.HashMap;
+
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mycoffee.domain.DriverDTO;
+import com.mycoffee.domain.DriverVO;
 import com.mycoffee.service.DriverManager;
+import com.mycoffee.service.DriverService;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -19,6 +26,7 @@ import lombok.extern.log4j.Log4j;
 public class DriverManagerController {
 
 	private DriverManager managerservice;
+	private DriverService driverservice;
 
 	/* 배달원 현황 조회 */
 	@GetMapping("/manager/driverList")
@@ -27,6 +35,13 @@ public class DriverManagerController {
 		model.addAttribute("list", managerservice.getDriverSummaryList());
 	}
 
+	@PostMapping(value = "/member/list/data", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<DriverVO> getDriver(@RequestBody HashMap<String, Object> param){
+		log.info("param:" + param);
+		String did = (String)param.get("did");
+		return ResponseEntity.ok(driverservice.getDriver(did));
+	}
+	
 	@PostMapping("/manager/join/approve")
 	public String approveRegist(DriverDTO driver) {
 		managerservice.approveRegist(driver);

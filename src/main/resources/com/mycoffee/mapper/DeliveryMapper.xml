@@ -4,42 +4,78 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycoffee.mapper.DeliveryMapper">
 
-	<select id="selectDriverOrderList"
-		resultType="com.mycoffee.domain.DriverOrderVO">
-		SELECT O.OID,
-		O.DID,
-		O.ORDERDATE,
-		O.STATUS,
-		CS.DISP AS STATUSDISP,
-		PC.PTYPE,
-		CT.DISP AS TEMPERATUREDISP,
-		PC.PNAME,
-		D.PIECES,
-		D.PRICE,
-		O.TOTALPRICE,
-		U.NAME,
-		U.MOBILE,
-		U.ADDRESS
-		FROM TBL_ORDER O
-		INNER JOIN TBL_ORDER_DETAIL d ON o.OID = d.OID
-		INNER JOIN TBL_PRODUCT p ON d.PID = p.PID
-		INNER JOIN TBL_PRODUCT_CATEGORY pc ON p.PCATEGORY = pc.PCATEGORY
-		INNER JOIN TBL_CODES ct ON p.TEMPERATURE = ct.CODE AND ct.TYPE = 'TEMPER'
-		INNER JOIN TBL_CODES cs ON o.STATUS = cs.CODE AND cs.TYPE = 'ORDER'
-		INNER JOIN TBL_USER u ON o.USERID = u.USERID
-		--INNER JOIN TBL_DRIVER d ON o.DID = d.DID
-		WHERE ((o.did = #{did}) OR
-		(o.did IS NULL AND o.status = 3))
-		AND TO_CHAR(o.ORDERDATE, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
-		ORDER BY o.status, O.ORDERDATE DESC, O.oid, PC.PTYPE, p.PID
+	<select id="selectDriverOrderList" resultType="com.mycoffee.domain.DriverOrderVO">
+		SELECT o.oid,
+		       o.did,
+		       o.orderdate,
+		       o.status,
+		       cs.disp as statusdisp,
+		       pc.ptype,
+		       ct.disp as temperaturedisp,
+		       pc.pname,
+		       d.pieces,
+		       d.price,
+		       o.totalprice,
+		       u.name,
+		       u.mobile,
+		       u.address
+		  FROM tbl_order o
+		 INNER JOIN TBL_ORDER_DETAIL d ON o.oid = d.oid
+		 INNER JOIN TBL_PRODUCT p ON d.pid = p.pid
+		 INNER JOIN TBL_PRODUCT_CATEGORY pc ON p.pcategory = pc.pcategory
+		 INNER JOIN TBL_CODES ct ON p.temperature = ct.code AND ct.type = 'TEMPER'
+		 INNER JOIN TBL_CODES cs ON o.status = cs.code AND cs.type = 'ORDER'
+		 INNER JOIN TBL_USER u ON o.userid = u.userid
+		 WHERE ((o.did = #{did}) OR
+		        (o.did IS NULL AND o.status = 3))
+		   AND TO_CHAR(o.orderdate, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
+		 ORDER BY o.status, o.orderdate desc, o.oid, pc.ptype, p.pid
 	</select>
 
-	<update id="updateOrderStatus">
+	<update id="updateOrderToCheckout">
 		UPDATE tbl_order SET
 			   did = #{did},
-			   status = #{status},
+			   status = 4,
 			   updatedate = SYSDATE
 		 WHERE oid = #{oid}
+		   AND status = 3
 	</update>
+
+	<update id="updateOrderToComplete">
+		UPDATE tbl_order SET
+			   status = 5,
+			   updatedate = SYSDATE
+		 WHERE oid = #{oid}
+		   AND did = #{did}
+		   AND status = 4
+	</update>
+	
+	<select id="selectUncheckedOrderList" resultType="com.mycoffee.domain.DriverOrderVO">
+		SELECT o.oid,
+		       o.did,
+		       o.orderdate,
+		       o.status,
+		       cs.disp as statusdisp,
+		       pc.ptype,
+		       ct.disp as temperaturedisp,
+		       pc.pname,
+		       d.pieces,
+		       d.price,
+		       o.totalprice,
+		       u.name,
+		       u.mobile,
+		       u.address
+		  FROM tbl_order o
+		 INNER JOIN TBL_ORDER_DETAIL d ON o.oid = d.oid
+		 INNER JOIN TBL_PRODUCT p ON d.pid = p.pid
+		 INNER JOIN TBL_PRODUCT_CATEGORY pc ON p.pcategory = pc.pcategory
+		 INNER JOIN TBL_CODES ct ON p.temperature = ct.code AND ct.type = 'TEMPER'
+		 INNER JOIN TBL_CODES cs ON o.status = cs.code AND cs.type = 'ORDER'
+		 INNER JOIN TBL_USER u ON o.userid = u.userid
+		 WHERE o.status = 3
+		   AND o.did IS NULL
+		   AND TO_CHAR(o.orderdate, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd')
+		 ORDER BY o.status, o.orderdate desc, o.oid, pc.ptype, p.pid
+	</select>
 
 </mapper>
