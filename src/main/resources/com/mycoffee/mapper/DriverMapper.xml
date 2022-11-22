@@ -94,6 +94,7 @@
 			          WHERE TO_CHAR(orderdate, 'yyyymmdd') = TO_CHAR(orderdate, 'yyyymmdd') AND status = 5 
 			          GROUP BY did
 			       ) v3 ON o.did = v3.did
+			 WHERE d.auth = 0
 			 ORDER BY d.name
 	</select>
 </mapper>

@@ -150,6 +150,7 @@
 						</thead>
 			
 						<tbody id="tbody-drivers">
+							<c:set var="unpermittedCount" value="0"/>
 							<c:forEach items="${list}" var="board">
 								<tr data-status="${board.status}">
 									<td>${board.name}</td>
@@ -158,6 +159,7 @@
 									<td class="showItem">
 										<c:choose>
 											<c:when test="${board.permitted == 0}">
+												<c:set var="unpermittedCount" value="${unpermittedCount + 1}"/>
 												<a href="#" data-did="${board.did}">${board.statusDisp}</a>
 											</c:when>
 											<c:otherwise>${board.statusDisp}</c:otherwise>
@@ -171,6 +173,11 @@
 			</div>
 		</div>
 	</div>
+<script type="text/javascript">
+const request = $(".nav-link[data-type='request']");
+const badge = $('<span class="badge badge-warning">${unpermittedCount}</span>');
+request.append(badge);
+</script>
 	
 	<!-- Modal -->
 	<div class="modal fade" id="registerModal" tabindex="-1" 
