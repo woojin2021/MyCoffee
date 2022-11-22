@@ -1,9 +1,10 @@
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
 <head>
-<link href="../../resources/css/bootstrap.css" rel="stylesheet" />
-<link href="../../resources/css/join.css" rel="stylesheet" />
+<link href="/resources/css/bootstrap.css" rel="stylesheet" />
+<link href="/resources/css/join.css" rel="stylesheet" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"
@@ -16,8 +17,7 @@
 function check()
 {
 	let form = "newMember";
-	
-	if (!document.forms[form].elements["id"].value) 
+	if (!document.forms[form].elements["did"].value) 
 	{
 		alert("아이디를 입력하세요.");
 		return false;
@@ -54,54 +54,50 @@ function check()
 		</div>
 	</div>
 
-	<div class="container">
-		<form role="form" name="newMember" class="form-horizontal" method="post" 
-		onsubmit="return check()" >
-			<div class="form-group  row">
-				<div class="col-sm-2">아이디</div>
-				<div class="col-sm-3">
+	<div class="container d-flex justify-content-center mt-5">
+	<div class="col-md-8 login-canvas">
+		<form role="form" name="newMember" class="form-horizontal" method="post"
+		onsubmit="return check();">
+			<div class="form-group row">
+				<div class="offset-sm-2 col-sm-2">아이디</div>
+				<div class="col-sm-6">
 					<input name="did" id="did" type="text" class="form-control" placeholder="ID" >
 				</div>
 			</div>
 			
-			<div class="form-group  row">
-				<div class="col-sm-2">비밀번호</div>
-				<div class="col-sm-3">
+			<div class="form-group row">
+				<div class="offset-sm-2 col-sm-2">비밀번호</div>
+				<div class="col-sm-6">
 					<input name="password" id="password" type="text" class="form-control" placeholder="password" >
 				</div>
 			</div>
 			
-			<div class="form-group  row">
-				<div class="col-sm-2">비밀번호 확인</div>
-				<div class="col-sm-3">
+			<div class="form-group row">
+				<div class="offset-sm-2 col-sm-2">이름</div>
+				<div class="col-sm-6">
 					<input name="password_confirm" id="password_confirm" type="text" class="form-control" placeholder="password confirm" >
 				</div>
 			</div>
 			
-			<div class="form-group  row">
-				<div class="col-sm-2">이름</div>
-				<div class="col-sm-3">
+			<div class="form-group row">
+				<div class="offset-sm-2 col-sm-2">휴대폰</div>
+				<div class="col-sm-6">
 					<input name="name" id="name" type="text" class="form-control" placeholder="name" >
 				</div>
 			</div>
 			
-			<div class="form-group  row">
-				<div class="col-sm-2">휴대폰</div>
-				<div class="col-sm-3">
-					<input name="mobile" id="mobile" type="text" class="form-control" placeholder="phone" >
-				</div>
-			</div>
-			
-			<div class="form-group row">
-				<div class="col-sm-offset-2 col-sm-10 " align="center">
-					<input type="submit" class="btn btn-primary" value="가입하기">
+			<div class="form-group row mt-5">
+				<div class="offset-sm-2 col-sm-8 d-flex justify-content-around">
+					<input type="submit" class="btn btn-primary" value="가입하기" >
 					<input type="reset" class="btn btn-primary disabled" 
 						value="취소" onclick="reset()">
+					<a href="/driver/login" class="btn btn-secondary">돌아가기</a>
 				</div>
 			</div>
 			
 		</form>
 		
+	</div>
 	</div>
 
 </body>

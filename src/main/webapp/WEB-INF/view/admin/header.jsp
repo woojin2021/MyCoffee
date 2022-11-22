@@ -79,8 +79,7 @@ $(document).ready(function(){
 
 </script>
 
-<nav class="navbar navbar-expand-lg"
-	style="background-color: rgb(166, 64, 64);">
+<nav class="navbar navbar-expand-lg" style="background-color: rgb(166, 64, 64);">
 	<div class="container-fluid">
 
 		<div class="d-flex align-items-baseline">

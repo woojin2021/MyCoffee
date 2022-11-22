@@ -13,18 +13,32 @@ public class DriverSummaryVO {
 	private int total;
 	private int permitted;
 	
-	
-	public String getStatus() {
+	public int getStatus() {
 		if (permitted == 0) {
-			return "승인대기";
+			return 1;
 		} else if (permitted == 2) {
-			return "승인거부";
+			return 2;
 		} else {
 			if (address == null) {
-				return "대기중";
+				return 3;
 			} else {
-				return "배달중";
+				return 4;
 			}
+		}
+	}
+	
+	public String getStatusDisp() {
+		switch (getStatus()) {
+		case 1:
+			return "승인대기";
+		case 2:
+			return "승인거부";
+		case 3:
+			return "대기중";
+		case 4:
+			return "배달중";
+		default:
+			return "";
 		}
 	}
 }

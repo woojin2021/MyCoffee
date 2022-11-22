@@ -1,11 +1,12 @@
 package com.mycoffee.service;
 
-
 import java.util.List;
+
+import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycoffee.domain.DriverDTO;
 import com.mycoffee.domain.DriverInfo;
-import com.mycoffee.domain.DriverSummaryVO;
 import com.mycoffee.domain.DriverVO;
 
 public interface DriverService {
@@ -38,10 +39,16 @@ public interface DriverService {
 	public boolean endDriver(String did);
 	
 	/* 배달원 주문 확인 */
-	public List<DriverInfo> getOrder(String did);
+	public List<DriverInfo> getOrder(String did, Model model);
 	
 //	public DriverVO driverLogin(String did, String password);
 	
 //	public boolean driverStatus(DriverInfo driver);
 
+	public void checkoutOrder(String oid, String did, RedirectAttributes rttr, Model model);
+	
+	public void completeOrder(String oid, String did, RedirectAttributes rttr, Model model);
+	
+	public List<DriverInfo> getUncheckedOrder();
+	
 }
