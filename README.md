@@ -42,6 +42,6 @@
 # 개발이력
 - v1.0 프로토타입: 일부 기능이 미구현되었으나 팀프로젝트 기간종료로 마무리   
 향후 개별적으로 수정
-- v1.1 리펙토링: [java package, web folder 재구성](https://github.com/woojin2021/MyCoffee/pull/4#issue-1456737925)
-- v1.2 배달원 모듈 미구현 기능 추가(진행중)
-- v1.3 리펙토링: 고객 모듈(미정)
+- v1.1 java package, web folder https://github.com/woojin2021/MyCoffee/pull/4#issue-1456737925
+- v1.2 배달원 모듈 수정 https://github.com/woojin2021/MyCoffee/pull/7#issue-1459834152
+- v1.3 고객 모듈 수정 (진행중)
