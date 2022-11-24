@@ -66,16 +66,16 @@ public class UserController {
 		}
 	}
 	//장바구니 담기 버튼에서만 현재 사용중 
-	@GetMapping("/CheckSession2")
-	public String CheckSession2(@RequestParam("str")String str,@RequestParam("category")String category,@RequestParam("tem")int tem,@RequestParam("cap")int cap,HttpServletRequest request)
-	{
-		HttpSession session = request.getSession(false);
-			
-		if(session.getAttribute("sessionId") == null)			
-			return "redirect:/user/User_Login";
-					
-		return "redirect:/user/"+str +"?category="+category+"&tem="+tem+"&cap="+cap;
-	}
+//	@GetMapping("/CheckSession2")
+//	public String CheckSession2(@RequestParam("str")String str,@RequestParam("category")String category,@RequestParam("tem")int tem,@RequestParam("cap")int cap,HttpServletRequest request)
+//	{
+//		HttpSession session = request.getSession(false);
+//			
+//		if(session.getAttribute("sessionId") == null)			
+//			return "redirect:/user/User_Login";
+//					
+//		return "redirect:/user/"+str +"?category="+category+"&tem="+tem+"&cap="+cap;
+//	}
 	@PostMapping("/login")
 	public String login(@RequestParam("userid") String id,@RequestParam("password") String passwd, Model model,HttpServletRequest request)
 	{

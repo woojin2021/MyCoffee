@@ -2,13 +2,17 @@ package com.mycoffee.service;
 
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.google.gson.Gson;
 import com.mycoffee.domain.CodesVO;
 import com.mycoffee.domain.ProductJoinVO;
-import com.mycoffee.domain.Product_CategoryVO;
+import com.mycoffee.domain.ProductViewVO;
+import com.mycoffee.domain.ProductCategoryVO;
+import com.mycoffee.domain.ProductInfo;
 import com.mycoffee.mapper.CodesMapper;
 import com.mycoffee.mapper.ProductViewMapper;
 
@@ -24,34 +28,51 @@ public class ProductServiceImpl implements ProductService{
 	private CodesMapper codesMapper;
 	
 	@Override
-	public Product_CategoryVO get(String category) {
+	public ProductCategoryVO getCategory(String category) {
 		log.info(category);
-		log.info(mapper.get(category));
-		return mapper.get(category);
+//		log.info(mapper.selectCategory(category));
+		return mapper.selectCategory(category);
 		
 	}
 
 	@Override
-	public List<Product_CategoryVO> getlist(int ptype) {
+	public List<ProductCategoryVO> getCategoryList(int ptype) {
 		log.info("get........");
-		return mapper.getlist(ptype);
+		return mapper.selectCategoryList(ptype);
 	}
 
-	@Override
-	public int getcount() {
-		log.info("get........");
-		int i =mapper.getcount();
-		return i;
-	}
+//	@Override
+//	public int getcount() {
+//		log.info("get........");
+//		int i =mapper.getcount();
+//		return i;
+//	}
 
 	/*
 	 * @Override public List<Product_CategoryVO> getlist1(String category) { return
 	 * mapper.getlist1(category); }
 	 */
 	@Override
-	public List<ProductJoinVO> getlist1(String category) {
+	public ProductInfo getProductList(String category) {
 		//log.info(mapper.getlist1(category));
-		return mapper.getlist1(category);
+		ProductCategoryVO cate = mapper.selectCategory(category);
+		List<ProductViewVO> products = mapper.selectProductList(category);
+		Gson json = new Gson();
+		
+		ProductInfo pInfo = new ProductInfo(
+				cate.getPcategory(), 
+				cate.getPname(), 
+				cate.getPtype(), 
+				cate.getDescription(), 
+				cate.getCalorie(), 
+				cate.getFat(), 
+				cate.getSugars(), 
+				cate.getSodium(), 
+				cate.getCaffeine(), 
+				cate.getProtein(),
+				cate.getImagefile(),
+				json.toJson(products));
+		return pInfo;
 	}
 
 	@Override
@@ -62,14 +83,14 @@ public class ProductServiceImpl implements ProductService{
 	
 	//추가된 것
 	@Override
-	public ProductJoinVO get2(String category, int tem, int cap) {
+	public ProductJoinVO getProductByPK(String category, int tem, int cap) {
 		//log.info(mapper.get2(category, tem, cap));
-		return mapper.get2(category, tem, cap);
+		return mapper.selectProductByPK(category, tem, cap);
 	}
 
 	@Override
-	public ProductJoinVO get3(String pid) {
-		return mapper.get3(pid);
+	public ProductJoinVO getProductByPid(String pid) {
+		return mapper.selectProductByPid(pid);
 	}
 
 }

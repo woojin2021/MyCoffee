@@ -18,10 +18,10 @@
      <c:choose>
       	<c:when test="${empty sessionId}">
         <li class="nav-item">
-          <a class="nav-link active" href="./User_Login"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">로그인</font></font></span></a>
+          <a class="nav-link active" href="/user/User_Login"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">로그인</font></font></span></a>
         </li>
         <li class="nav-item">
-         		 <a class="nav-link" href="./User_SignUp"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">회원가입</font></font></a>
+         		 <a class="nav-link" href="/user/User_SignUp"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">회원가입</font></font></a>
        	</li>
        </c:when>
         <c:otherwise>
@@ -56,10 +56,9 @@
     </div>
   </div>
 </nav>
-<div class="container-fluid" style="background-color:black;height:10px;padding:0px;margin:0px;">
+<!-- <div class="container-fluid" style="background-color:black;height:10px;padding:0px;margin:0px;">
 </div>
 <div  class="jumbotron" style="width:100%;height:300px;background-color:orange;padding:0px;margin:0px;" align="center">
-	<!-- <img src="../resources/img/My-Coffee.jpg" style="width:75%; height:150px;padding-top:0px;margin-top:0px;margin-bottom:0px;" > -->
 	<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel"style="width:70%;height:300px;background-color:orange;padding:0px;margin:0px;"align="center">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -81,4 +80,4 @@
     <span class="visually-hidden">Next</span>
   </button>
 </div>
-</div>
+</div> -->

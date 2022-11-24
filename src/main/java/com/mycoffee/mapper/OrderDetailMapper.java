@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.mycoffee.domain.Order_detailVO;
+import com.mycoffee.domain.OrderDetailVO;
 
 public interface OrderDetailMapper {
 
@@ -14,13 +14,13 @@ public interface OrderDetailMapper {
 	public void insertOrderdetail(@Param("oid") String oid, @Param("pid") String pid, @Param("price") int price);
 
 	// select
-	public Order_detailVO getodlist(@Param("oid") String oid, @Param("pid") String pid);
+	public OrderDetailVO getodlist(@Param("oid") String oid, @Param("pid") String pid);
 
-	public Order_detailVO select_detail(String oid);
+	public OrderDetailVO select_detail(String oid);
 
-	public List<Order_detailVO> select_detailList(String oid);
+	public List<OrderDetailVO> select_detailList(String oid);
 
-	public Order_detailVO select_detail2(@Param("oid") String oid, @Param("pid") String pid);
+	public OrderDetailVO select_detail2(@Param("oid") String oid, @Param("pid") String pid);
 
 	public int getpieces(@Param("oid") String oid, @Param("pid") String pid);
 

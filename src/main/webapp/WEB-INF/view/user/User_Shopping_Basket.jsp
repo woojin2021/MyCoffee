@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri ="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
 <%@ page import =  "com.mycoffee.domain.OrderVO" %>
-<%@ page import =  "com.mycoffee.domain.Order_detailVO" %>
+<%@ page import =  "com.mycoffee.domain.OrderDetailVO" %>
 <%@ page import =  "com.mycoffee.domain.ProductJoinVO" %>
 <%@page import="java.util.List"%>
 <!DOCTYPE html>
@@ -10,8 +10,8 @@
 <head>
 <meta charset="utf-8">
 <%
-	List<OrderVO> order2=null;
-	List<Order_detailVO> od2=null;
+List<OrderVO> order2=null;
+	List<OrderDetailVO> od2=null;
 	List<ProductJoinVO> product= null;
 	if(request.getAttribute("order2") != null)
 	{

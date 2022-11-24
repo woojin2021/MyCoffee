@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				(#{oid}, #{userid}, #{totalprice},#{status},sysdate,sysdate)
 	</insert>
 	
-	<select id="get" resultType="com.mycoffee.domain.OrderVO">
+	<select id="selectOrderByCategory" resultType="com.mycoffee.domain.OrderVO">
 		select * from tbl_order
 			where pcategory=#{category}
 	</select>
@@ -71,38 +71,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		delete tbl_order where oid=#{oid} and status=#{status}
 	</delete>
 	
-	<!-- tbl_oder_detail -->
-	<insert id="insertOrderdetail">
-		insert into
-			tbl_order_detail(oid,pid,pieces,price,registdate,updatedate)
-				values(#{oid},#{pid},1,#{price},sysdate,sysdate)
-	</insert>
-	<select id ="getodlist" resultType="com.mycoffee.domain.Order_detailVO">
-		select * from tbl_order_detail
-			where oid=#{oid} and pid={#pid}
-	</select>
-	<select id ="select_detail"  resultType="com.mycoffee.domain.Order_detailVO">
-		select * from tbl_order_detail
-			where oid=#{oid}
-	</select>
-	<select id ="select_detailList"  resultType="com.mycoffee.domain.Order_detailVO">
-		select * from tbl_order_detail
-			where oid=#{oid}
-	</select>
-	<select id="select_detail2" resultType="com.mycoffee.domain.Order_detailVO">
-		select * from tbl_order_detail
-			where oid=#{oid} and pid=#{pid}
-	</select>
-	<select id="getpieces" resultType="int">
-		select pieces from tbl_order_detail
-			where oid=#{oid} and pid=#{pid}
-	</select>
-	<select id="getpidList" resultType="String">
-		select pid from tbl_order_detail
-			where oid=#{oid}
-	</select>
-	
-	<delete id="deleteorder_detail">
-		delete tbl_order_detail where oid=#{oid}
-	</delete>
 </mapper>

@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mycoffee.domain.OrderVO;
-import com.mycoffee.domain.Order_detailVO;
+import com.mycoffee.domain.OrderDetailVO;
 import com.mycoffee.mapper.OrderDetailMapper;
 import com.mycoffee.mapper.OrderMapper;
 
@@ -73,24 +73,24 @@ public class OrderServiceImpl implements OrderService{
 	
 	//detail
 	@Override
-	public List<Order_detailVO> getodlist(String oid, String pid) {
-		return (List<Order_detailVO>) detailmapper.getodlist(oid, pid);
+	public List<OrderDetailVO> getodlist(String oid, String pid) {
+		return (List<OrderDetailVO>) detailmapper.getodlist(oid, pid);
 	}
 	@Override
 	public void insertOrder_detail(String oid, String pid, int price) {
 		detailmapper.insertOrderdetail(oid, pid, price);
 	}
 	@Override
-	public Order_detailVO selectstatus_detail(String oid) {
+	public OrderDetailVO selectstatus_detail(String oid) {
 		return detailmapper.select_detail(oid);
 	}
 	@Override
-	public List<Order_detailVO> selectstatus_detailList(String oid) {
+	public List<OrderDetailVO> selectstatus_detailList(String oid) {
 		return detailmapper.select_detailList(oid);
 	}
 
 	@Override
-	public Order_detailVO selectstatus_detail2(String oid, String pid) {
+	public OrderDetailVO selectstatus_detail2(String oid, String pid) {
 		return detailmapper.select_detail2(oid, pid);
 	}
 	@Override

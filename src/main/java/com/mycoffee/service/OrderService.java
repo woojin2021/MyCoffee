@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.mycoffee.domain.OrderVO;
-import com.mycoffee.domain.Order_detailVO;
+import com.mycoffee.domain.OrderDetailVO;
 public interface OrderService {
 	public void insertOrder(String oid, String userid, int totalprice,int status);
 	public int deleteorder(String oid, int status);
@@ -21,10 +21,10 @@ public interface OrderService {
 	public List<OrderVO> getlist2(String oid);
 	//orderdetail
 	public void insertOrder_detail(String oid,String pid, int price);
-	public List<Order_detailVO> getodlist(String oid, String pid);
-	public List<Order_detailVO> selectstatus_detailList(String oid);
-	public Order_detailVO selectstatus_detail(String oid);
-	public Order_detailVO selectstatus_detail2(String oid, String pid);
+	public List<OrderDetailVO> getodlist(String oid, String pid);
+	public List<OrderDetailVO> selectstatus_detailList(String oid);
+	public OrderDetailVO selectstatus_detail(String oid);
+	public OrderDetailVO selectstatus_detail2(String oid, String pid);
 	public int getpieces(@Param("oid")String oid,@Param("pid")String pid);
 	public List<String> getpidList(String oid);
 	

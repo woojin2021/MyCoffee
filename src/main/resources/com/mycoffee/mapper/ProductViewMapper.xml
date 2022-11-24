@@ -3,36 +3,58 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycoffee.mapper.ProductViewMapper">
-	<select id="get" resultType="com.mycoffee.domain.Product_CategoryVO">
-		select * from tbl_product_category
-			where pcategory=#{category}
+
+	<select id="selectCategory" resultType="com.mycoffee.domain.ProductCategoryVO">
+		select * 
+		  from tbl_product_category
+		 where pcategory=#{category}
 	</select>
-	<select id="getcount" resultType="int">
+	
+	<!-- <select id="getcount" resultType="int">
 		select count(*) from tbl_proudct_category
-	</select>
-	<select id="get2" resultType="com.mycoffee.domain.ProductJoinVO">
-			select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
-		pid ,temperature ,capacity ,price ,onsale
-		from tbl_product_category pc join tbl_product p on pc.pcategory=p.pcategory
-		where pc.pcategory=#{category} and temperature =#{tem} and capacity =#{cap}
-	</select>
-	<select id="get3" resultType="com.mycoffee.domain.ProductJoinVO">
+	</select> -->
+	
+	<select id="selectProductByKey" resultType="com.mycoffee.domain.ProductJoinVO">
 		select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
-		pid ,temperature ,capacity ,price ,onsale
-		from tbl_product_category pc join tbl_product p on pc.pcategory=p.pcategory
-		where pid =#{pid}
+		       pid ,temperature ,capacity ,price ,onsale
+		  from tbl_product_category pc
+		  join tbl_product p on pc.pcategory=p.pcategory
+		 where pc.pcategory=#{category}
+		   and temperature =#{tem}
+		   and capacity =#{cap}
 	</select>
-	<select id="getlist" resultType="com.mycoffee.domain.Product_CategoryVO">
+	
+	<select id="selectProductByPid" resultType="com.mycoffee.domain.ProductJoinVO">
+		select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
+		       pid ,temperature ,capacity ,price ,onsale
+		  from tbl_product_category pc
+		  join tbl_product p on pc.pcategory=p.pcategory
+		 where pid =#{pid}
+	</select>
+	
+	<select id="selectCategoryList" resultType="com.mycoffee.domain.ProductCategoryVO">
 		select pc.* 
 		  from tbl_product_category pc
 		 where pc.ptype = #{ptype}
 		   and exists (select 1 from tbl_product p where p.pcategory = pc.pcategory and onsale = 1)
 	</select>
-	<select id="getlist1" resultType="com.mycoffee.domain.ProductJoinVO">
+	
+	<!-- <select id="selectProductList" resultType="com.mycoffee.domain.ProductJoinVO">
 		select pc.pcategory,pname,ptype ,description ,calorie ,fat ,sugars ,sodium ,caffeine ,imagefile ,pc.registdate ,
 		pid ,temperature ,capacity ,price ,onsale
 		from tbl_product_category pc join tbl_product p on pc.pcategory=p.pcategory
 		where pc.pcategory=#{category}
 		  and p.onsale = 1
+	</select> -->
+	
+	<select id="selectProductList" resultType="com.mycoffee.domain.ProductViewVO">
+		select p.pid, p.pcategory, p.temperature, ct.disp temperatureDisp, p.capacity, cc.disp capacityDisp, p.price, p.onsale
+		  from tbl_product p
+		 inner join tbl_codes ct ON ct.code = p.temperature AND ct.type = 'TEMPER'
+		  left join tbl_codes cc ON cc.code = p.capacity AND cc.type = 'DRINK'
+		 where p.pcategory = #{category}
+		   and p.onsale = 1
+		 order by p.temperature, p.capacity
 	</select>
+	
 </mapper>

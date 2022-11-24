@@ -10,19 +10,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			tbl_order_detail(oid,pid,pieces,price,registdate,updatedate)
 				values(#{oid},#{pid},1,#{price},sysdate,sysdate)
 	</insert>
-	<select id ="getodlist" resultType="com.mycoffee.domain.Order_detailVO">
+	<select id ="getodlist" resultType="com.mycoffee.domain.OrderDetailVO">
 		select * from tbl_order_detail
 			where oid=#{oid} and pid={#pid}
 	</select>
-	<select id ="select_detail"  resultType="com.mycoffee.domain.Order_detailVO">
+	<select id ="select_detail"  resultType="com.mycoffee.domain.OrderDetailVO">
 		select * from tbl_order_detail
 			where oid=#{oid}
 	</select>
-	<select id ="select_detailList"  resultType="com.mycoffee.domain.Order_detailVO">
+	<select id ="select_detailList"  resultType="com.mycoffee.domain.OrderDetailVO">
 		select * from tbl_order_detail
 			where oid=#{oid}
 	</select>
-	<select id="select_detail2" resultType="com.mycoffee.domain.Order_detailVO">
+	<select id="select_detail2" resultType="com.mycoffee.domain.OrderDetailVO">
 		select * from tbl_order_detail
 			where oid=#{oid} and pid=#{pid}
 	</select>

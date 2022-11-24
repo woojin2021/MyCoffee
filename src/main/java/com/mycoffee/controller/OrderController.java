@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycoffee.domain.UserVO;
 import com.mycoffee.domain.OrderVO;
-import com.mycoffee.domain.Order_detailVO;
+import com.mycoffee.domain.OrderDetailVO;
 import com.mycoffee.service.OrderService;
 import com.mycoffee.domain.ProductJoinVO;
 import com.mycoffee.service.ProductService;
@@ -49,9 +49,11 @@ public class OrderController
 	}
 	
 	
-	@GetMapping("/InsertOrder")
-	public String insertorder(@RequestParam("category")String category,@RequestParam("tem") int tem,@RequestParam("cap") int cap,Model model,HttpServletRequest request)
+	@PostMapping("/InsertOrder")
+	public String insertorder(@RequestParam("pid") String pid, Model model, HttpSession session)
 	{ 
+		if(session.getAttribute("sessionId") == null)
+			return "redirect:/user/User_Login";
 		//1현재 오더 중에 주문 작성(0) 상태가 있다면 oid 생성 x
 		//-리스트로 확인하고 주문작성 상태인 주문 가져오기
 		//usrid로 검색해서 찾기
@@ -60,8 +62,9 @@ public class OrderController
 		//3주문내역은 있지만 주문 작성(0)상태가 없는 경우 oid 생성
 		//4주문내역도 없고 주문작성상태도 없는 경우?
 		//userid로 검색하고 없으면
-		ProductJoinVO p =pservice.get2(category, tem, cap);//프로덕트 검색
-		HttpSession session = request.getSession(false);//세션 확인
+//		ProductJoinVO p =pservice.getProductByPK(category, tem, cap);//프로덕트 검색
+		ProductJoinVO p =pservice.getProductByPid(pid);//프로덕트 검색
+//		HttpSession session = request.getSession(false);//세션 확인
 		UserVO user = (UserVO)session.getAttribute("sessionId");//유저값 세션으로 가져오기
 		int addprice=0;
 		//2.주문내역 자체가 없는경우 oid 생성 필요
@@ -81,7 +84,7 @@ public class OrderController
 			
 			//이미 주문한 pid일 경우 넘겨받기.
 			System.out.println(service.selectstatus_detailList(order.getOid()));
-			List<Order_detailVO> otlist = new ArrayList<Order_detailVO>();
+			List<OrderDetailVO> otlist = new ArrayList<OrderDetailVO>();
 			List<String> pidlist = new ArrayList<String>();
 			boolean checkpid = false;
 			for(int i=0; i<service.selectstatus_detailList(order.getOid()).size();i++)
@@ -149,7 +152,7 @@ public class OrderController
 			int index =0;
 			while(pidlist.get(index) !=null)
 			{
-				plist.add(pservice.get3(pidlist.get(index)));
+				plist.add(pservice.getProductByPid(pidlist.get(index)));
 				index++;
 				if(pidlist.size() == index)
 				{index =0;break;}
@@ -166,7 +169,7 @@ public class OrderController
 		service.selectstatus0(user.getUserid()).getOid();
 		String oid=service.selectstatus0(user.getUserid()).getOid();//status0인 oid
 		OrderVO order =service.selectstatus0(user.getUserid());//status0인 oid로 오더
-		ProductJoinVO p = pservice.get2(category, tem, cap);
+		ProductJoinVO p = pservice.getProductByPK(category, tem, cap);
 		int i=service.getpieces(service.selectstatus0(user.getUserid()).getOid(),pid);
 		int a = i+1;
 		int b = i-1;
@@ -236,11 +239,11 @@ public class OrderController
 			request.setAttribute("order", order);
 			
 			//orderdetaillist
-			List<Order_detailVO>otlist = new ArrayList<Order_detailVO>();
+			List<OrderDetailVO>otlist = new ArrayList<OrderDetailVO>();
 			int index =0;
 			while(order.get(index)!=null)
 			{
-				List<Order_detailVO>otlisttmp=service.selectstatus_detailList(order.get(index).getOid());
+				List<OrderDetailVO>otlisttmp=service.selectstatus_detailList(order.get(index).getOid());
 				for(int i=0;i<otlisttmp.size();i++)
 				{
 					otlist.add(otlisttmp.get(i));
@@ -279,7 +282,7 @@ public class OrderController
 			//product리스트
 			while(pidlist.get(index) !=null)
 			{
-				plist.add(pservice.get3(pidlist.get(index)));
+				plist.add(pservice.getProductByPid(pidlist.get(index)));
 				index++;
 				if(pidlist.size() == index)
 				{index =0;break;}
