@@ -28,6 +28,7 @@ td {
 </style>
 <script>
 $(document).ready(function(){
+	if (${product.ptype == 1}) {return;}
 
 	const details = JSON.parse('${product.details}');
 	console.log(details);
@@ -75,7 +76,7 @@ $(document).ready(function(){
 					</tr>
 					<tr>
 						<td colspan="2">제품 영양 정보</td>
-						<td colspan="2" class="text-right">Tall(톨) / 355ml 기준</td>
+						<td colspan="2" class="text-right">${product.ptype == 0 ? 'Tall(톨) / 355ml 기준':'100g 기준' }</td>
 					</tr>
 					<tr style="border-bottom-color: #FFF">
 						<td>칼로리(kcal)</td>

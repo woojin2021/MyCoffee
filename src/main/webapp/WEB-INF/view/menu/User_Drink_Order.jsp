@@ -27,6 +27,11 @@ let selectedCapacity = -1;
 const details = JSON.parse('${product.details}');
 
 $(document).ready(function(){
+	if (${product.ptype == 1}) {
+		$("#option1").parent().hide();
+		$("#option2").parent().hide();
+		return;
+	}
 
 	console.log(details);
 	const option1 = $("#option1");
@@ -117,6 +122,10 @@ $(document).ready(function(){
 });
 
 function checkInput() {
+	if (${product.ptype == 1}) {
+		$("#pid").val(details[0].pid);
+		return;
+	}
 	if (selectedTemperature < 0 || selectedCapacity < 0) {
 		alert("상품을 선택해 주세요!");
 		return false;
@@ -131,9 +140,10 @@ function checkInput() {
 </head>
 <body>
 	<%@ include file="../user/User_menu.jsp"%>
-	<div class="card shadow-sm p-3 mb-5 bg-body rounded" " align="center">
+	<div class="card shadow-sm p-3 mb-5 bg-body rounded" align="center">
+	<div class="container">
 		<div class="container row">
-			<div class="offset-md-2 col-md-8" style="border: 1px solid; background-color: orange;">
+			<div class="offset-md-2 col-md-8 menu-bg-color-2" style="border: 1px solid orange;">
 				<h3 class="form-signin-heading">상세 메뉴 구매</h3>
 			</div>
 		</div>
@@ -154,7 +164,7 @@ function checkInput() {
 					</tr>
 					<tr>
 						<td colspan="2">제품 영양 정보</td>
-						<td colspan="2" class="text-right">Tall(톨) / 355ml 기준</td>
+						<td colspan="2" class="text-right">${product.ptype == 0 ? 'Tall(톨) / 355ml 기준':'100g 기준' }</td>
 					</tr>
 					<tr style="border-bottom-color: #FFF">
 						<td>칼로리(kcal)</td>
@@ -187,8 +197,8 @@ function checkInput() {
 			</div>
 		</div>
 
-		<div class="container row">
-			<div class="d-flex justify-content-center">
+		<div class="container row d-flex justify-content-center">
+			<div class="">
 				<form action="/user/InsertOrder" method="post">
 					<input type="hidden" id="pid" name="pid">
 					<input type="submit" class="btn btn-outline-primary " value="장바구니에 담기" onclick="return checkInput();">
@@ -197,6 +207,7 @@ function checkInput() {
 			</div>
 		</div>
 
+	</div>
 	</div>
 </body>
 </html>

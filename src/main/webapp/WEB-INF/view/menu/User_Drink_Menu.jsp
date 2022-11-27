@@ -53,7 +53,7 @@
 			for (let i = 0; i < result.length; i++) {
 				buffer += '<div class="col-md-3" style="min-width: 250px;">';
 				//buffer += '<div class ="col mt-2">';
-				buffer += '<a href="/menu/User_One_Drink?category=' + result[i].pcategory + '"><img src="/resources/img/' + result[i].imagefile + '" style="width:100%;" align="center"></a>';
+				buffer += '<a href="/menu/User_Drink_Order?category=' + result[i].pcategory + '"><img src="/resources/img/' + result[i].imagefile + '" style="width:100%;" align="center"></a>';
 				buffer += '<div>';
 				buffer += '<h5 class="mt-2">' + result[i].pname + '</h5>';
 				buffer += '<p class="text-ellipsis">' + result[i].description + '<p>';
@@ -75,7 +75,7 @@
 	
 	<div class="container mt-5">
 		<div class="card text-center">
-			<div class="card-header">
+			<div class="card-header menu-bg-color-2">
 				<ul class="nav nav-tabs card-header-tabs" id="categoryLiist">
 					<c:forEach var="productType" items="${ptypeList}"
 						varStatus="status">
@@ -89,7 +89,7 @@
 				<!-- <div class="col-md-10"> -->
 					<div class="row" id="productList">
 						<!-- 텝(카테고리)를 클릭하면 갱신 -->
-						<div class="col-sm-2" style="width:250px;height:350px;border:1px solid;margin-left:10px;margin-right:10px;" >
+						<div class="col-md-3" style="min-width: 250px;">
 							<div class ="col" style="margin-top:10px;">
 								<a href="/menu/User_One_Drink?category=x"><img src="/resources/img/empty.jpg"></a>
 								<div class="overflow-hidden">

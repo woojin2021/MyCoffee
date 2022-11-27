@@ -20,17 +20,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select * from tbl_order
 		 where status=0 and userid=#{userid}
 	</select>
-	<select id="getlist" resultType="com.mycoffee.domain.OrderVO">
-		<![CDATA[select * from tbl_order
-		]]>
-	</select>
 	<select id="getlist2" resultType="com.mycoffee.domain.OrderVO">
 		select * from tbl_order
 			where userid=#{userid} and status>0
-	</select>
-	<select id="selectstatus0List" resultType="com.mycoffee.domain.OrderVO">
-		select * from tbl_order
-		 where status=0 and userid=#{userid}
 	</select>
 	
 	<select id="countlist" resultType="int">
@@ -41,34 +33,51 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		select count(*) from tbl_order
 			where userid=#{userid} and status=#{status}
 	</select>
-	<select id="countstatus2" resultType="int">
+	<!-- <select id="countstatus2" resultType="int">
 		select count(*) from tbl_order
 			where userid=#{userid} and status>0
-	</select>
+	</select> -->
 	
-	<update id="piecesupdate">
-		update tbl_order_detail
-			set pieces =#{num}
-		where oid=#{oid} and pid=#{pid}
-	</update>
-	<update id="totalpriceupdate">	
+	<update id="updatTotalprice">	
 		update tbl_order
 			set totalprice =#{addprice}
 		where oid=#{oid}
 	</update>
-	<update id="statusupdate">
+	<update id="updateStatus">
 		update tbl_order
 			set status=#{status}
 			where oid=#{oid}
 	</update>
-	<update id="orderdateupdate">
+	<update id="updateOrderdate">
 		update tbl_order
 			set orderdate=sysdate
 			where oid=#{oid}
 	</update>
 	
-	<delete id="deleteorder">
+	<delete id="deleteOrder">
 		delete tbl_order where oid=#{oid} and status=#{status}
 	</delete>
+	
+	
+	<select id="selectOrderDatas" resultType="com.mycoffee.domain.OrderWithDetailVO">
+		SELECT o.oid, o.userid, o.totalprice, o.status, o.orderdate, o.registdate, co.disp statusDisp, 
+		       p.pid, p.pcategory, t.pname, p.price, p.onsale, d.pieces, 
+		       p.temperature, ct.disp temperatureDisp, p.capacity, cc.disp capacityDisp
+		  FROM tbl_order o
+		 INNER JOIN tbl_order_detail d ON o.oid = d.oid 
+		 INNER JOIN tbl_product p ON d.pid = p.pid 
+		 INNER JOIN tbl_product_category t ON p.pcategory = t.pcategory
+		 INNER JOIN tbl_codes co ON co.code = o.status AND co.type = 'ORDER'
+		 INNER JOIN tbl_codes ct ON ct.code = p.temperature AND ct.type = 'TEMPER'
+		  LEFT JOIN tbl_codes cc ON cc.code = p.capacity AND cc.type = 'DRINK'
+		 WHERE o.userid = #{userid}
+		<if test="status == 0">
+		   AND status = 0
+		</if>
+		<if test="status != 0">
+		   AND status > 0
+		</if>
+		 ORDER BY o.orderdate, d.registdate
+	</select>
 	
 </mapper>

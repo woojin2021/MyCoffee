@@ -1,60 +1,61 @@
-<%@ page contentType ="text/html; charset=utf-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
-<link rel ="stylesheet" href ="../resources/css/bootstrap.min.css"/>
+<%@ page contentType="text/html; charset=utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css" />
 <!-- 부트스트랩 5 - 드롭다운 사용하기 위해 추가/나중에 헤더에 집합시키기 -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<%
-	HttpSession sessionId = request.getSession(false);//있으면 받고 없으면 별도 생성하지 않기.
-	System.out.println(sessionId);
-%>
-
-<nav class="navbar navbar-expand-lg" style="background-color:white;">
-  <div class="container-fluid">
-   <img src="../resources/img/mycoffeelogo.png" style="width:250px; height:70px;margin-top:10px;margin-bottom:10px;">
-    <div class="collapse navbar-collapse" id="navbarColor01">
-      <ul class="navbar-nav ml-auto">
-     <c:choose>
-      	<c:when test="${empty sessionId}">
-        <li class="nav-item">
-          <a class="nav-link active" href="/user/User_Login"><span><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">로그인</font></font></span></a>
-        </li>
-        <li class="nav-item">
-         		 <a class="nav-link" href="/user/User_SignUp"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">회원가입</font></font></a>
-       	</li>
-       </c:when>
-        <c:otherwise>
-			<li class="nav-item" >
-       			<input class="form-control" name="name" value='<c:out value="${sessionId.name}"/>' readonly="readonly">
-       		</li>
-         	<li class="nav-item">
-          	<a class="nav-link active" href="/user/logout"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">로그아웃</font></font></span></a>
-        	</li>
-        </c:otherwise>
-        </c:choose> 
-        	<li class="nav-item">
-          		<a class="nav-link active" href="/menu/User_Drink_Menu"><font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">목록</font></font></a>
-        	</li>
- 		 	<li class="nav-item">
-          		<a class="nav-link" href="/user/CheckSession?str=User_Shopping_Basket">
-          		<font style="vertical-align: inherit;"><font style="vertical-align: inherit; color:black;">장바구니</font></font></a>
-        	</li>
-		<c:choose>
-      		<c:when test="${empty sessionId}"></c:when>
-        	<c:otherwise>
-        		<div class="dropdown">
-  					<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"> 마이 페이지</button>
-  					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    					<li><a class="dropdown-item" href="/user/CheckSession?str=User_Order_History">주문 내역 보기</a></li>
-    					<li><a class="dropdown-item" href="/user/CheckSession?str=User_Edit">회원 정보 수정</a></li>
-  					</ul>
-				</div>
-		  </c:otherwise>
-        </c:choose> 
-      </ul>
-    </div>
-  </div>
+<script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<style>
+.navbar-nav li a {
+	color: black;
+}
+.menu-bg-color-1 {
+	background-color: rgb(243, 156, 18);
+}
+.menu-bg-color-2 {
+	background-color: rgb(241, 196, 125);
+}
+</style>
+<nav class="navbar navbar-expand-md navbar-light menu-bg-color-1">
+	<!-- <div class="container-fluid"> -->
+		<img src="/resources/img/mycoffeelogo.png" style="width: 250px; height: 70px; margin-top: 10px; margin-bottom: 10px;">
+		
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		
+		<div class="collapse navbar-collapse" id="navbarColor01">
+			<ul class="navbar-nav ml-auto">
+				<c:choose>
+					<c:when test="${empty sessionScope.sessionId}">
+						<li class="nav-item"><a class="nav-link active" href="/user/User_Login">로그인</a></li>
+						<li class="nav-item"><a class="nav-link" href="/user/User_SignUp"><font style="color: black;">회원가입</font></a>
+						</li>
+					</c:when>
+					<c:otherwise>
+						<li class="nav-item"><span class="nav-link"><c:out value="${sessionScope.sessionId.name}"/></span></li>
+					</c:otherwise>
+				</c:choose>
+				<li class="nav-item"><a class="nav-link active" href="/menu/User_Drink_Menu">목록</a>
+				</li>
+				<li class="nav-item"><a class="nav-link" href="/user/User_Shopping_Basket">장바구니</a></li>
+				<c:choose>
+					<c:when test="${empty sessionScope.sessionId}"></c:when>
+					<c:otherwise>
+						<div class="dropdown">
+							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"aria-expanded="false">마이 페이지</button>
+							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+								<li><a class="dropdown-item" href="/user/User_Order_History">주문 내역 보기</a></li>
+								<li><a class="dropdown-item" href="/user/User_Edit">회원 정보 수정</a></li>
+								<li><a class="dropdown-item" href="/user/logout">로그아웃</a></li>
+							</ul>
+						</div>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+	<!-- </div> -->
 </nav>
 <!-- <div class="container-fluid" style="background-color:black;height:10px;padding:0px;margin:0px;">
 </div>

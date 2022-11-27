@@ -8,12 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<%
-List<OrderVO> order2 = (List)request.getAttribute("order");
-	List<OrderDetailVO> od2=(List)request.getAttribute("otlist");
-	List<ProductJoinVO> product =(List)request.getAttribute("product");
-%>
+<title>나의 주문 내역</title>
 </head>
 <body>
 <%@ include file="./User_menu.jsp" %>
@@ -22,63 +17,28 @@ List<OrderVO> order2 = (List)request.getAttribute("order");
 	<div class="col-md-12">
 	<div class="card" background-color:#" align="center">
   		<div class="card-header"> 나의 주문 내역</div>
-  		<% for(int a=0; a<order2.size();a++)
-		{
-		%>
+  		
+  		<c:forEach var="orderData" items="${orderHistory}">
   		<div class="row" style="border-top:1px solid;background-color:rgb(20,150,150);padding:0px;margin:0px;">
-  			<div class="col-md-8" align="left" "><label >주문번호 : <%= order2.get(a).getOid() %></label></div>
-  			<div class="col-md-4" align="right">주문상태 :  <%= order2.get(a).getStatus() %></div>
+					<div class="col-md-8" align="left"><label>주문 번호 : ${orderData.oid}</label></div>
+					<div class="col-md-4" align="right">주문상태 : ${orderData.statusDisp}</div>
   		</div>
   		<div class="row" style="border-top:1px solid;background-color:rgb(20,150,150);padding:0px;margin:0px;">
-  			<div class="col-md-8" align="left"><label>회원 아이디 :  <%= order2.get(a).getUserid() %></label></div>
-  			<div class="col-md-4" align="right">주문 시작 시간 :  <%= order2.get(a).getRegistdate() %></div> 
+					<div class="col-md-8" align="left"><label>회원 아이디 : ${orderData.userid}</label></div>
+					<div class="col-md-4" align="right">주문 시작 시간 : ${orderData.registdate}</div>
   		</div>
   		
-  		<%	
-  			int index=0;
-  		 for(int j=0; j<od2.size();j++)
-		 {
-  			for(int i=0; i<product.size();i++)
-  			{	
-  				if(od2.get(j).getOid().equals(order2.get(a).getOid()))
-  				{
-   					if(product.get(i).getPid().equals(od2.get(j).getPid()))
-   					{
-  		%>
-
+		<c:forEach var="detail" items="${orderData.details}">
   		<div class="card-body" style="border-top:1px solid" align="left">
-  			메뉴명 : <%=product.get(i).getPname()%>
-  			선택용량 : <%=product.get(i).getCapacity() %> (ml)
-  			냉/온 : 
-  				<% 		if(product.get(i).getTemperature()==0) 
-  						{
-  				%>
-  						<span class="btn btn-primary"  disabled='disabled'>ICE</span>
-  				<%
-  						}
-  						else
-  						{
-  				%>
-						<span class="btn btn-danger"  disabled='disabled'>HOT</span>
-				<%
-  						}
-  				%>
-  				단일가격 : <%=product.get(i).getPrice() %> (원)
-  				갯수 : 
-  						<%=od2.get(j).getPieces() %>
-  				<% 
-  						index=j;
-  						break;
-  					}
-   					}
-  				} 
-		 }
-  				%>
-  			<div align="right" style="border-top:1px solid;border-bottom:2px; solid">
-  				구매 총액 : <%= order2.get(a).getTotalprice() %> 원 입니다.
-  			</div>
+						메뉴명 : ${detail.pname} 선택용량 : ${detail.capacityDisp} (${detail.capacity}ml) 냉/온 : ${detail.temperatureDisp}
+						단일가격 : ${detail.price} (원) 갯수 : ${detail.pieces}
   		</div>
-		<% }%>
+		</c:forEach>
+		
+		<div align="right" style="border-top: 1px solid; border-bottom:2px solid;">구매 총액 : ${orderData.totalprice}원 입니다.</div>
+		
+		</c:forEach>
+		
   	</div>
 </div>
 </div>

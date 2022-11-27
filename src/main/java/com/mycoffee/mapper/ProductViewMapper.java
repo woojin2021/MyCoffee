@@ -31,5 +31,5 @@ public interface ProductViewMapper {
 	 */
 	public List<ProductViewVO> selectProductList(String category);
 	
-//	public int getcount();
+	public int getcount();
 }

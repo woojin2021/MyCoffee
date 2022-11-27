@@ -14,19 +14,19 @@ public interface OrderDetailMapper {
 	public void insertOrderdetail(@Param("oid") String oid, @Param("pid") String pid, @Param("price") int price);
 
 	// select
-	public OrderDetailVO getodlist(@Param("oid") String oid, @Param("pid") String pid);
+	public OrderDetailVO selectDetail(@Param("oid") String oid, @Param("pid") String pid);
 
-	public OrderDetailVO select_detail(String oid);
+	public List<OrderDetailVO> selectDetailList(String oid);
 
-	public List<OrderDetailVO> select_detailList(String oid);
+	public int getPieces(@Param("oid") String oid, @Param("pid") String pid);
 
-	public OrderDetailVO select_detail2(@Param("oid") String oid, @Param("pid") String pid);
+//	public List<String> getpidList(String oid);
 
-	public int getpieces(@Param("oid") String oid, @Param("pid") String pid);
-
-	public List<String> getpidList(String oid);
+	// update
+	public void updatePieces(@Param("oid") String oid, @Param("pid") String pid, @Param("num") int num);
 
 	// delete
-	public void deleteorder_detail(String oid);
+	public int deleteOrderDetailByOid(String oid);
 
+	public int deleteOrderDetail(@Param("oid") String oid, @Param("pid") String pid);
 }
