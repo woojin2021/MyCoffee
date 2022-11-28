@@ -19,10 +19,14 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mycoffee.common.Auth;
+import com.mycoffee.common.LoginChecker;
 import com.mycoffee.common.Auth.Role;
 import com.mycoffee.domain.OrderrInfo;
 import com.mycoffee.domain.ProductCategoryDTO;
+import com.mycoffee.domain.ProductCategoryVO;
 import com.mycoffee.domain.ProductDTO;
+import com.mycoffee.domain.ProductVO;
+import com.mycoffee.domain.UserVO;
 import com.mycoffee.service.AdminService;
 
 import lombok.AllArgsConstructor;
@@ -47,7 +51,9 @@ public class AdminController {
 	
 	@PostMapping("/login")
 	public String login(String uid, String pwd, HttpSession session, RedirectAttributes rttr) {
-		if (service.login(uid, pwd, session)) {
+		UserVO user = service.login(uid, pwd); 
+		if (user != null) {
+			session.setAttribute(LoginChecker.SN_LOGIN_USER, user);
 			return "/admin/order/list";
 		} else {
 			rttr.addFlashAttribute("result", "아이디/비밀번호가 일치하지 않습니다.");
@@ -55,11 +61,11 @@ public class AdminController {
 		}
 	}
 
-	@Auth(role = Role.STORE_MANAGER)
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
 		log.info("logout");
-		service.logout(session);
+//		service.logout(session);
+		session.invalidate();
 		return "/admin/login";
 	}
 
@@ -82,7 +88,7 @@ public class AdminController {
 
 	@Auth(role = Role.STORE_MANAGER, type = DispatcherType.ASYNC)
 	@GetMapping(value = "/product/check/{pcategory}", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ProductCategoryDTO> checkPcategory(@PathVariable("pcategory") String pcategory) {
+	public ResponseEntity<ProductCategoryVO> checkPcategory(@PathVariable("pcategory") String pcategory) {
 		log.info("checkPcategory");
 		return ResponseEntity.ok(service.getCategory(pcategory));
 	}
@@ -146,7 +152,7 @@ public class AdminController {
 
 	@Auth(role = Role.STORE_MANAGER, type = DispatcherType.ASYNC)
 	@GetMapping(value = "/product/detail/get/{pid}", produces = {MediaType.APPLICATION_JSON_VALUE})
-	public ResponseEntity<ProductDTO> getProduct(@PathVariable("pid") String pid) {
+	public ResponseEntity<ProductVO> getProduct(@PathVariable("pid") String pid) {
 		log.info("checkPcategory");
 		return ResponseEntity.ok(service.getProduct(pid));
 	}

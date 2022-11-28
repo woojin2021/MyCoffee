@@ -115,8 +115,10 @@ function addNewOrder(datas) {
 
 function ajaxError(xhr) {
 	console.log(xhr);
-	if (xhr.status == 406)
+	if (xhr.status == 406){
 		clearInterval(timer);
+		location.href = "/admin/logout";
+	}
 }
 
 $(document).ready(function () {

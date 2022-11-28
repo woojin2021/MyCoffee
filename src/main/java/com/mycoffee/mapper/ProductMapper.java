@@ -3,10 +3,11 @@ package com.mycoffee.mapper;
 import java.util.List;
 
 import com.mycoffee.domain.ProductDTO;
+import com.mycoffee.domain.ProductVO;
 
 public interface ProductMapper {
 	
-	public ProductDTO selectProduct(String pid);
+	public ProductVO selectProduct(String pid);
 
 	public int insertProduct(ProductDTO category);
 
@@ -19,7 +20,7 @@ public interface ProductMapper {
 	 * @param pcategory
 	 * @return
 	 */
-	public List<ProductDTO> selectProductInCategory(String pcategory);
+	public List<ProductVO> selectProductInCategory(String pcategory);
 
 	/**
 	 * pcategory에 속한 상품 일괄 삭제

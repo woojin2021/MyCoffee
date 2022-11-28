@@ -7,19 +7,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mycoffee.common.FileUploader;
-import com.mycoffee.common.LoginChecker;
 import com.mycoffee.domain.CafeDTO;
 import com.mycoffee.domain.CodesVO;
 import com.mycoffee.domain.OrderOfTodyVO;
 import com.mycoffee.domain.OrderrInfo;
 import com.mycoffee.domain.ProductCategoryDTO;
+import com.mycoffee.domain.ProductCategoryVO;
 import com.mycoffee.domain.ProductDTO;
+import com.mycoffee.domain.ProductVO;
 import com.mycoffee.domain.UserVO;
 import com.mycoffee.mapper.CafeMapper;
 import com.mycoffee.mapper.CodesMapper;
@@ -52,19 +52,19 @@ public class AdminServiceImpl implements AdminService {
 	}
 	
 	@Override
-	public List<ProductCategoryDTO> getCategoryList(int ptype) {
+	public List<ProductCategoryVO> getCategoryList(int ptype) {
 		log.info("getCategoryList: [ptype=" + ptype + "]");		
 		return categoryMapper.selectCategoryByPtype(ptype);
 	}
 
 	@Override
-	public List<ProductDTO> getProductList(String pcategory) {
+	public List<ProductVO> getProductList(String pcategory) {
 		log.info("getProductList: [pcategory=" + pcategory + "]");
 		return productMapper.selectProductInCategory(pcategory);
 	}
 
 	@Override
-	public ProductCategoryDTO getCategory(String pcategory) {
+	public ProductCategoryVO getCategory(String pcategory) {
 		log.info("getCategory: [pcategory=" + pcategory + "]");		
 		return categoryMapper.selectCategory(pcategory);
 	}
@@ -132,7 +132,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public ProductDTO getProduct(String pid) {
+	public ProductVO getProduct(String pid) {
 		log.info("getProduct: [pid=" + pid + "]");
 		return productMapper.selectProduct(pid);
 	}
@@ -251,19 +251,17 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public boolean login(String uid, String passwrod, HttpSession session) {
-		UserVO user = userMapper.LoginUser(uid, passwrod);
-		if (user == null || user.getAuth() != 1) {
-			return false;
+	public UserVO login(String uid, String passwrod) {
+		UserVO user = userMapper.selectUser(uid);
+		if (user == null || user.getPassword().equals(passwrod) == false || user.getAuth() != 1) {
+			return null;
 		}
-		session.setAttribute(LoginChecker.SN_AUTH, user.getAuth());
-		
-		return true;
+		return user;
 	}
 
-	@Override
-	public void logout(HttpSession session) {
-		session.removeAttribute(LoginChecker.SN_AUTH);
-	}
+//	@Override
+//	public void logout(HttpSession session) {
+//		session.removeAttribute(LoginChecker.SN_AUTH);
+//	}
 	
 }

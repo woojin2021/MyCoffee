@@ -12,7 +12,7 @@ import com.mycoffee.domain.DriverVO;
 public interface DriverService {
 	
 	/* 회원가입 */
-	public int memberJoin(DriverDTO driver) throws Exception;
+	public int memberJoin(DriverDTO driver);
 
 	/* 회원 정보 검색 */
 	public DriverVO getDriver(String did);
@@ -24,10 +24,10 @@ public interface DriverService {
 	public boolean delete(String did);
 	
 	/* 아이디 중복 검사 */
-	public int idCheck(String did) throws Exception;
+	public int idCheck(String did);
 	
 	/*로그인*/
-	public DriverVO driverLogin(DriverDTO driver) throws Exception;
+	public DriverVO driverLogin(DriverDTO driver);
 
 	/* 근무 상태 */
 	public boolean workDriver(String did);

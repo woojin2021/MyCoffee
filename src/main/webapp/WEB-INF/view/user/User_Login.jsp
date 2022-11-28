@@ -4,45 +4,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<%
-	String msg= request.getParameter("msg");// == null ? "0" : request.getParameter("msg");
-%>
-<script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script>
-
-     $(function() {
-
-        if(msg == 1)
-    	 	alert("123123");
-        else
-        	alert("333333");
-
-     });
-
-</script>
+<title>로그인</title>
 </head>
 <body>
 
-<%@ include file="./User_menu.jsp" %>
-
-<div class="card" align="center">
+	<%@ include file="./User_menu.jsp" %>
+	
+	<div class="container mt-5" align="center">
 		<div class="container row">
-			<div class ="col-md-8">
-				<img src="../resources/img/Coffee1.jpg" style="width:400px; height:400px">
+			<div class ="col-md">
+				<img src="/resources/img/Coffee1.jpg" style="max-width:100%;">
 			</div>
-			<div class="col-md-4">
+			<div class="col-md">
 			<h3 class="form-signin-heading">Please sign in</h3>
-			<%
-				String error = request.getParameter("error");
-				if (error != null) {
-					out.println("<div class='alert alert-danger'>");
-					out.println("아이디와 비밀번호를 확인해 주세요");
-					out.println("</div>");
-				}
-			%> 
-			<form class="form-signin" role="form" action="/user/logincheck" method="post">
+			<c:if test="${!empty error}">
+				<div class="alert alert-danger">아이디와 비밀번호를 확인해 주세요</div>
+			</c:if>
+			<form class="form-signin" style="max-width:400px;" role="form" action="/user/logincheck" method="post">
 				<div class="form-group">
 					<label for="inputUserName" class="sr-only">User Name</label> <input
 						type="text" class="form-control" placeholder="ID" name="userid" id="userid"

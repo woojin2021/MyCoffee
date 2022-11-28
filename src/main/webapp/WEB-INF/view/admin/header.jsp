@@ -71,8 +71,10 @@ $(document).ready(function(){
 
 	function ajaxError(xhr) {
 		console.log(xhr);
-		if (xhr.status == 406)
+		if (xhr.status == 406) {
 			clearInterval(timer);
+			location.href = "/admin/logout";
+		}
 	}
 	
 });

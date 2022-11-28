@@ -2,24 +2,25 @@ package com.mycoffee.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mycoffee.domain.CodesVO;
 import com.mycoffee.domain.OrderrInfo;
 import com.mycoffee.domain.ProductCategoryDTO;
+import com.mycoffee.domain.ProductCategoryVO;
 import com.mycoffee.domain.ProductDTO;
+import com.mycoffee.domain.ProductVO;
+import com.mycoffee.domain.UserVO;
 
 public interface AdminService {
 
 	public List<CodesVO> getCodeList(String type);
 	
-	public List<ProductCategoryDTO> getCategoryList(int ptype);
+	public List<ProductCategoryVO> getCategoryList(int ptype);
 
-	public List<ProductDTO> getProductList(String pcategory);
+	public List<ProductVO> getProductList(String pcategory);
 	
-	public ProductCategoryDTO getCategory(String pcategory);
+	public ProductCategoryVO getCategory(String pcategory);
 	
 	public int addCategory(ProductCategoryDTO dto, MultipartFile[] uploadfile);
 
@@ -27,7 +28,7 @@ public interface AdminService {
 
 	public int removeCategory(String pcategory);
 
-	public ProductDTO getProduct(String pid);
+	public ProductVO getProduct(String pid);
 	
 	public int addProduct(ProductDTO dto);
 
@@ -49,7 +50,7 @@ public interface AdminService {
 	
 	public List<OrderrInfo> modifyOrderStatus(String oper, String oid);
 
-	public boolean login(String uid, String passwrod, HttpSession session);
+	public UserVO login(String uid, String passwrod);
 	
-	public void logout(HttpSession session);
+//	public void logout(HttpSession session);
 }

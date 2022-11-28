@@ -25,11 +25,10 @@ public interface ProductViewMapper {
 	//public List<Product_CategoryVO> getlist1(String category);
 	
 	/**
-	 * 저정한 카테고리에 등록된 상품중 현제 시판중인 목록을 검색
+	 * 지정한 카테고리에 등록된 상품중 현제 시판중인 목록을 검색
 	 * @param category
 	 * @return
 	 */
 	public List<ProductViewVO> selectProductList(String category);
 	
-	public int getcount();
 }
