@@ -4,7 +4,7 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mycoffee.mapper.ProductCategoryMapper">
 
-	<select id="selectCategory" resultType="com.mycoffee.domain.ProductCategoryDTO">
+	<select id="selectCategory" resultType="com.mycoffee.domain.ProductCategoryVO">
 		SELECT * FROM tbl_product_category WHERE pcategory = #{pcategory}
 	</select>
 	
@@ -34,7 +34,7 @@
 		 WHERE pcategory = #{pcategory}
 	</delete>
 
-	<select id="selectCategoryByPtype" resultType="com.mycoffee.domain.ProductCategoryDTO">
+	<select id="selectCategoryByPtype" resultType="com.mycoffee.domain.ProductCategoryVO">
 		SELECT * FROM tbl_product_category WHERE ptype = #{ptype}
 	</select>
 		

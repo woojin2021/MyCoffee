@@ -28,20 +28,20 @@
 		<div class="collapse navbar-collapse" id="navbarColor01">
 			<ul class="navbar-nav ml-auto">
 				<c:choose>
-					<c:when test="${empty sessionScope.sessionId}">
+					<c:when test="${empty sessionScope.SN_LOGIN_USER}">
 						<li class="nav-item"><a class="nav-link active" href="/user/User_Login">로그인</a></li>
 						<li class="nav-item"><a class="nav-link" href="/user/User_SignUp"><font style="color: black;">회원가입</font></a>
 						</li>
 					</c:when>
 					<c:otherwise>
-						<li class="nav-item"><span class="nav-link"><c:out value="${sessionScope.sessionId.name}"/></span></li>
+						<li class="nav-item"><span class="nav-link"><c:out value="${sessionScope.SN_LOGIN_USER.name}"/></span></li>
 					</c:otherwise>
 				</c:choose>
 				<li class="nav-item"><a class="nav-link active" href="/menu/User_Drink_Menu">목록</a>
 				</li>
 				<li class="nav-item"><a class="nav-link" href="/user/User_Shopping_Basket">장바구니</a></li>
 				<c:choose>
-					<c:when test="${empty sessionScope.sessionId}"></c:when>
+					<c:when test="${empty sessionScope.SN_LOGIN_USER}"></c:when>
 					<c:otherwise>
 						<div class="dropdown">
 							<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown"aria-expanded="false">마이 페이지</button>

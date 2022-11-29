@@ -80,8 +80,7 @@ public class DriverController {
 
 	@Auth(role = Role.DRIVER)
 	@GetMapping(value = "/member/edit")
-	public void showDriverEdit(Model model, HttpSession session) {
-		model.addAttribute("driver", session.getAttribute(LoginChecker.SN_LOGIN_DRIVER));
+	public void showDriverEdit() {
 	}
 	
 	// 회원 정보 수정

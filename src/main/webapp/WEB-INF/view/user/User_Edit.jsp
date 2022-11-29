@@ -46,24 +46,24 @@ if (!document.forms[form].elements["uname"].value)
 				<form role="form" name = "SignUp" class="form-horizontal" action="/user/useredit" method="post" onsubmit="return check()">
 					<div class="form-group row">
 						<label class="col-md-4" align="left">*아이디 : </label>
-						<div class="col-md-6"><input type="text" name="userid" id="userid" class="form-control" value='<c:out value="${sessionId.userid}"/>' readonly="readonly"></div>
+						<div class="col-md-6"><input type="text" name="userid" id="userid" class="form-control" value='<c:out value="${SN_LOGIN_USER.userid}"/>' readonly="readonly"></div>
 					</div>
 					<div class ="form-group row">
 						<label class="col-md-4" align="left">*비밀번호 : </label>
-						<div class="col-md-6"><input name ="password" id="password" type="password" class="form-control" value='<c:out value="${sessionId.password}"/>' readonly="readonly"></div>
+						<div class="col-md-6"><input name ="password" id="password" type="password" class="form-control" value='<c:out value="${SN_LOGIN_USER.password}"/>' readonly="readonly"></div>
 					</div>
 		
 					<div class ="form-group row">
 						<label class="col-md-4" align="left">*성명 : </label>
-						<div class="col-md-6"><input name ="name" id="name" type="text" class="form-control" value='<c:out value="${sessionId.name}"/>' readonly="readonly"></div>
+						<div class="col-md-6"><input name ="name" id="name" type="text" class="form-control" value='<c:out value="${SN_LOGIN_USER.name}"/>' readonly="readonly"></div>
 					</div>
 					<div class ="form-group row">
 						<label class="col-md-4" align="left">*전화번호 : </label>
-						<div class="col-md-6"><input type="text" name ="mobile"class="form-control" value='<c:out value="${sessionId.mobile}"/>'></div>
+						<div class="col-md-6"><input type="text" name ="mobile"class="form-control" value='<c:out value="${SN_LOGIN_USER.mobile}"/>'></div>
 					</div>
 					<div class ="form-group row">
 						<label class="col-md-4" align="left">*주소 : </label>
-						<div class="col-md-6"><input type="text" name ="address"class="form-control" value='<c:out value="${sessionId.address}"/>'></div>
+						<div class="col-md-6"><input type="text" name ="address"class="form-control" value='<c:out value="${SN_LOGIN_USER.address}"/>'></div>
 					</div>
 					<div class="form-group  row">
 						<div class="col-sm-offset-2 col-sm-10 ">
