@@ -31,6 +31,9 @@ public class LoginChecker {
 //		log.info("user: " + user);
 		if (user == null) {
 			return false;
+		} else if (user.getAuth() != 0) {
+			log.info("user: " + user);
+			return false;
 		}
 		return true;
 	}
@@ -52,6 +55,9 @@ public class LoginChecker {
 		DriverVO driver = (DriverVO)session.getAttribute(SN_LOGIN_DRIVER);
 //		log.info("driver: " + driver);
 		if (driver == null) {
+			return false;
+		} else if (driver.getAuth() != 0) {
+			log.info("driver: " + driver);
 			return false;
 		}
 		return true;

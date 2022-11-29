@@ -95,14 +95,14 @@ public class AdminServiceImpl implements AdminService {
 	public int updateCategory(ProductCategoryDTO dto, MultipartFile[] uploadfile) {
 		log.info("updateCategory");
 
-		// enctype="multipart/form-data"로 인한 강제 charset 변경 대응
-		try {
-			dto.setPname(new String(dto.getPname().getBytes("8859_1"), "UTF-8"));
-			dto.setDescription(new String(dto.getDescription().getBytes("8859_1"), "UTF-8"));
-			dto.setImagefile(new String(dto.getImagefile().getBytes("8859_1"), "UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
+		// enctype="multipart/form-data"로 인한 강제 charset 변경 대응 -> tomcat web.xml 수정
+//		try {
+//			dto.setPname(new String(dto.getPname().getBytes("8859_1"), "UTF-8"));
+//			dto.setDescription(new String(dto.getDescription().getBytes("8859_1"), "UTF-8"));
+//			dto.setImagefile(new String(dto.getImagefile().getBytes("8859_1"), "UTF-8"));
+//		} catch (UnsupportedEncodingException e) {
+//			e.printStackTrace();
+//		}
 		
 		// 파일 업로드
 		String oldImageFile = null;

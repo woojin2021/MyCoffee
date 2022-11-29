@@ -33,7 +33,7 @@
 			<div class="form-group row">
 				<div class="offset-sm-2 col-sm-2">아이디</div>
 				<div class="col-sm-6">
-					<input name="did" type="text" class="form-control" value='${driver.did}' readonly="readonly">
+					<input name="did" type="text" class="form-control" value='${SN_LOGIN_DRIVER.did}' readonly="readonly">
 				</div>
 			</div>
 			
@@ -47,14 +47,14 @@
 			<div class="form-group row">
 				<div class="offset-sm-2 col-sm-2">이름</div>
 				<div class="col-sm-6">
-					<input name="name" type="text" class="form-control" value='${driver.name}' >
+					<input name="name" type="text" class="form-control" value='${SN_LOGIN_DRIVER.name}' >
 				</div>
 			</div>
 			
 			<div class="form-group row">
 				<div class="offset-sm-2 col-sm-2">휴대폰</div>
 				<div class="col-sm-6">
-					<input name="mobile" type="text" class="form-control" value='${driver.mobile}' >
+					<input name="mobile" type="text" class="form-control" value='${SN_LOGIN_DRIVER.mobile}' >
 				</div>
 			</div>
 			
