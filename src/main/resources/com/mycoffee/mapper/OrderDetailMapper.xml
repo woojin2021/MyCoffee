@@ -10,32 +10,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			tbl_order_detail(oid,pid,pieces,price,registdate,updatedate)
 				values(#{oid},#{pid},1,#{price},sysdate,sysdate)
 	</insert>
-	<select id ="getodlist" resultType="com.mycoffee.domain.Order_detailVO">
+	
+	<select id ="selectDetail" resultType="com.mycoffee.domain.OrderDetailVO">
 		select * from tbl_order_detail
 			where oid=#{oid} and pid={#pid}
 	</select>
-	<select id ="select_detail"  resultType="com.mycoffee.domain.Order_detailVO">
+	<select id ="selectDetailList"  resultType="com.mycoffee.domain.OrderDetailVO">
 		select * from tbl_order_detail
 			where oid=#{oid}
 	</select>
-	<select id ="select_detailList"  resultType="com.mycoffee.domain.Order_detailVO">
-		select * from tbl_order_detail
-			where oid=#{oid}
-	</select>
-	<select id="select_detail2" resultType="com.mycoffee.domain.Order_detailVO">
-		select * from tbl_order_detail
-			where oid=#{oid} and pid=#{pid}
-	</select>
-	<select id="getpieces" resultType="int">
+	<select id="getPieces" resultType="int">
 		select pieces from tbl_order_detail
 			where oid=#{oid} and pid=#{pid}
 	</select>
-	<select id="getpidList" resultType="String">
+	<update id="updatePieces">
+		update tbl_order_detail
+			set pieces =#{num}
+		where oid=#{oid} and pid=#{pid}
+	</update>
+	<!-- <select id="getpidList" resultType="String">
 		select pid from tbl_order_detail
 			where oid=#{oid}
-	</select>
+	</select> -->
 	
-	<delete id="deleteorder_detail">
+	<delete id="deleteOrderDetailByOid">
 		delete tbl_order_detail where oid=#{oid}
+	</delete>
+	<delete id="deleteOrderDetail">
+		delete tbl_order_detail where oid=#{oid} and pid=#{pid}
 	</delete>
 </mapper>

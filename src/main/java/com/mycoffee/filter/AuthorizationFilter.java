@@ -31,7 +31,7 @@ public class AuthorizationFilter implements Filter {
 		
 		if (requestURI.matches("/admin/(.*)" ) && 
 				requestURI.equals(loginPage) == false && 
-				LoginChecker.isAdministrator(httpRequest) == false) {
+				LoginChecker.isStoreManager(httpRequest) == false) {
 			log.info("prevented access to " + requestURI);
 			if (requestURI.matches("/admin/async/(.*)" ) || request.getDispatcherType() == DispatcherType.ASYNC) {
 				((HttpServletResponse)response).sendError(HttpStatus.NOT_ACCEPTABLE.value());

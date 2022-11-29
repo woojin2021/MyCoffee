@@ -2,9 +2,9 @@ package com.mycoffee.domain;
 
 import java.util.Date;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 public class UserVO {
 	private String userid;
 	private String password;

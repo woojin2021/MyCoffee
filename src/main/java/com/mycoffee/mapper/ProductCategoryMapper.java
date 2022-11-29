@@ -3,10 +3,11 @@ package com.mycoffee.mapper;
 import java.util.List;
 
 import com.mycoffee.domain.ProductCategoryDTO;
+import com.mycoffee.domain.ProductCategoryVO;
 
 public interface ProductCategoryMapper {
 
-	public ProductCategoryDTO selectCategory(String pcategory);
+	public ProductCategoryVO selectCategory(String pcategory);
 	
 	public int insertCategory(ProductCategoryDTO category);
 	
@@ -19,6 +20,6 @@ public interface ProductCategoryMapper {
 	 * @param ptype 0:음료. 1:음식
 	 * @return
 	 */
-	public List<ProductCategoryDTO> selectCategoryByPtype(int ptype);
+	public List<ProductCategoryVO> selectCategoryByPtype(int ptype);
 
 }

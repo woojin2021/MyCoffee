@@ -64,34 +64,22 @@
 
 			<div>
 				<span id="newOrder" class="badge badge-pill badge-danger" onclick="location.href='/driver/member/driverOrder'">0</span>
-
 				<button class="navbar-toggler-copy" type="button" id="userMenu" data-target="#navbarDriverMenu">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				
-				<!-- <div class="navbar-collapse-copy collapse" id="navbarDriverMenu" style="text-align: right;">
-					<ul class="navbar-nav" style="">
-						<li class="nav-item" active>
-							<a class="nav-link" href="/driver/member/edit">회원정보</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/driver/logout.do">로그아웃</a>
-						</li>
-					</ul>
-				</div> -->
 			</div>
 		</div>
-
 	</nav>
-				<div class="collapse pr-4" id="navbarDriverMenu" style="text-align: right;">
-					<ul class="navbar-nav" style="">
-						<li class="nav-item" active>
-							<a class="nav-link" href="/driver/member/edit">회원정보</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="/driver/logout.do">로그아웃</a>
-						</li>
-					</ul>
-				</div>
+	
+	<div class="collapse pr-4" id="navbarDriverMenu" style="text-align: right;">
+		<ul class="navbar-nav" style="">
+			<li class="nav-item active">
+				<a class="nav-link" href="/driver/member/edit">회원정보</a>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="/driver/logout.do">로그아웃</a>
+			</li>
+		</ul>
+	</div>
 
 </body>

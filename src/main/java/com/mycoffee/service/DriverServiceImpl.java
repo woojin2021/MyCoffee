@@ -4,8 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -30,7 +28,7 @@ public class DriverServiceImpl implements DriverService{
 
 	
 	@Override
-	public int memberJoin(DriverDTO driver) throws Exception {
+	public int memberJoin(DriverDTO driver) {
 		return drivermapper.insert(driver);
 	}
 
@@ -56,12 +54,12 @@ public class DriverServiceImpl implements DriverService{
 	}
 
 	@Override
-	public int idCheck(String did) throws Exception{
+	public int idCheck(String did) {
 		return drivermapper.idCheck(did);
 	}
 
 	@Override
-	public DriverVO driverLogin(DriverDTO driver) throws Exception {
+	public DriverVO driverLogin(DriverDTO driver) {
 		return drivermapper.driverLogin(driver);	
 	}
 

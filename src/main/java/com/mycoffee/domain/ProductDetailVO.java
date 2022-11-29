@@ -2,10 +2,10 @@ package com.mycoffee.domain;
 
 import java.util.Date;
 
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-public class Product_detailVO {
+@Getter
+public class ProductDetailVO {
 	private String pid;
 	private String pcategory;
 	private Date registdate;

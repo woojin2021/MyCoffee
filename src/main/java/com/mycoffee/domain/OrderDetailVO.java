@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class Order_detailVO {
+public class OrderDetailVO {
 	private String oid;
 	private String pid;
 	private int pieces;

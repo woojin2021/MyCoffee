@@ -2,8 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<link href="../../resources/css/bootstrap.css" rel="stylesheet" />
-<link href="../../resources/css/join.css" rel="stylesheet" />
+<link href="/resources/css/bootstrap.css" rel="stylesheet" />
+<link href="/resources/css/join.css" rel="stylesheet" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <script src="https://code.jquery.com/jquery-3.4.1.js"

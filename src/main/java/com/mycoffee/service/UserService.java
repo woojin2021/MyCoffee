@@ -1,16 +1,23 @@
 package com.mycoffee.service;
 
-import org.apache.ibatis.annotations.Param;
-
+import com.mycoffee.domain.UserDTO;
 import com.mycoffee.domain.UserVO;
 public interface UserService 
 {
 //	public void sele();
 //	public void register(UserVO user);
-	public UserVO LoginUser(@Param("userid")String userid, @Param("password")String password);
-	public boolean modify(UserVO user);
-	public boolean remove(String id);
-	public void insertUser(UserVO user);
-	public int CheckId(@Param("userid")String userid);
-	public int CheckUser(@Param("userid")String userid, @Param("password")String password);
+	public UserVO getUser(String userid);
+	public boolean modifyUser(UserDTO user);
+	public boolean removeUser(String id);
+	public void insertUser(UserDTO user);
+//	public int CheckId(String userid);
+//	public int CheckUser(String userid, String password);
+	
+	/**
+	 * 로그인 체크
+	 * @param userid
+	 * @param password
+	 * @return 0:OK, 1:미등록 아이디, 2:비밀번호 불일치
+	 */
+	public int loginCheck(String userid, String password);
 }

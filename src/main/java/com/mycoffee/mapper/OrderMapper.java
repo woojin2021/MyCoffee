@@ -4,6 +4,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.mycoffee.domain.OrderVO;
+import com.mycoffee.domain.OrderWithDetailVO;
 
 public interface OrderMapper {
 
@@ -14,36 +15,31 @@ public interface OrderMapper {
 			@Param("totalprice") int totalprice, @Param("status") int status);
 
 	// select
-	public OrderVO get(String oid);
-
 	public OrderVO selectstatus0(String userid);
 
 	// select list
-	public List<OrderVO> getlist();
-
 	public List<OrderVO> getlist2(String userid);
-
-	public List<OrderVO> selectstatus0List(String userid);
 
 	// select count
 	public int countlist(String userid);
 
 	public int countstatus(@Param("userid") String userid, @Param("status") int status);
 
-	public int countstatus2(String userid);
+//	public int countstatus2(String userid);
 
 	// update
-	public void piecesupdate(@Param("oid") String oid, @Param("pid") String pid, @Param("num") int num);
+	public void updatTotalprice(@Param("oid") String oid, @Param("addprice") int addprice);
 
-	public void totalpriceupdate(@Param("oid") String oid, @Param("addprice") int addprice);
+	public void updateStatus(@Param("oid") String oid, @Param("status") int status);
 
-	public void statusupdate(@Param("oid") String oid, @Param("status") int status);
-
-	public void orderdateupdate(@Param("oid") String oid);
+	public void updateOrderdate(@Param("oid") String oid);
 
 	// delete
-	public void deleteorder(@Param("oid") String oid, @Param("status") int status);
+	public int deleteOrder(@Param("oid") String oid, @Param("status") int status);
+
 
 	
+	// --------------------------- tbl_order + tbl_order_detail ---------------------------
+	public List<OrderWithDetailVO> selectOrderDatas(@Param("userid") String userid, @Param("status") int status);
 
 }

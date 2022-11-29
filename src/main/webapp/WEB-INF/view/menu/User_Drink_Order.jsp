@@ -2,197 +2,212 @@
 <%@page import="java.util.List"%>
 <%@page import="org.springframework.web.bind.annotation.ModelAttribute"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"%>
-<%@ taglib prefix="c" uri ="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
-<%@ page import = "org.springframework.ui.Model" %>
-<%@ page import ="com.mycoffee.domain.ProductJoinVO" %>
+<%@ page import="org.springframework.ui.Model"%>
+<%@ page import="com.mycoffee.domain.ProductJoinVO"%>
 <!DOCTYPE html>
 <html>
 <head>
-<%
-	List<ProductJoinVO> product =(List)request.getAttribute("list");
-	int tem= 0;
-	int cap= 237;
-%>
+<script src="https://code.jquery.com/jquery-3.6.1.js"
+	integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI="
+	crossorigin="anonymous"></script>
 <style>
-	th{width:150px;}
-	td{text-align:left;}
+th {
+	width: 150px;
+}
+
+td {
+	text-align: left;
+}
 </style>
-<meta charset="utf-8">
+<script>
+let selectedTemperature = -1;
+let selectedCapacity = -1;
+const details = JSON.parse('${product.details}');
+
+$(document).ready(function(){
+	if (${product.ptype == 1}) {
+		$("#option1").parent().hide();
+		$("#option2").parent().hide();
+		return;
+	}
+
+	console.log(details);
+	const option1 = $("#option1");
+	const option2 = $("#option2");
+	const capacities = new Array();
+	let hot = 0;
+	let cold = 0;
+	details.forEach(data => {
+		if (data.temperature == 0)
+			cold++;
+		if (data.temperature == 1)
+			hot++;
+		let chk = false;
+		capacities.forEach(c => {
+			chk = chk | (c.capacity == data.capacity);
+		});
+		if (chk == false) {
+			const cap = new Object();
+			cap.capacity = data.capacity;
+			cap.capacityDisp = data.capacityDisp;
+			capacities.push(cap);
+		}
+	});
+	if (hot > 0) {
+		option1.append($('<span class="btn btn-outline-danger mr-3" data-tmpr="1">HOT</span>'))
+	}
+	if (cold > 0) {
+		option1.append($('<span class="btn btn-outline-primary" data-tmpr="0">ICE</span>'))
+	}
+	console.log(capacities);
+	capacities.forEach(c => {
+		option2.append($('<span class="btn btn-sm mr-1 btn-outline-secondary" data-capt="' + c.capacity + '">' + c.capacityDisp + '</span>'))
+	});
+	
+	$("[data-tmpr]").on("click", function(e){
+		const temperature = this.getAttribute("data-tmpr");
+		if (selectedTemperature == temperature)
+			return;
+		selectedTemperature = temperature;
+		selectedCapacity = -1;
+		const tmprs = $("[data-tmpr]");
+		for(let i = 0; i < tmprs.length; i++) {
+			let cls = tmprs[i].getAttribute("class");
+			if (tmprs[i] == this) {
+				cls = cls.replace(/btn-outline-/i, 'btn-');
+			} else if (cls.indexOf("btn-outline-") < 0){
+				cls = cls.replace(/btn-/i, 'btn-outline-');
+			}
+			tmprs[i].setAttribute("class", cls);
+		}
+		$("[data-capt]").each(function() {
+			const opt2 = $(this);
+			const capt = opt2.data("capt");
+			opt2.toggleClass();
+			opt2.addClass(["btn", "btn-outline-secondary", "btn-sm", "mr-1"]);
+			opt2.prop("disabled", true);
+			console.log();
+			details.forEach(d => {
+				if (d.temperature == selectedTemperature && d.capacity == capt) {
+					opt2.removeClass("btn-outline-secondary");
+					opt2.addClass("btn-outline-info");
+					opt2.prop("disabled", false);
+				};
+			});
+		});
+	});
+	
+	$("[data-capt]").on("click", function(e){
+		if (this["disabled"]){return;}
+		const capacity = this.getAttribute("data-capt");
+		if (selectedCapacity == capacity)
+			return;
+		selectedCapacity = capacity;
+		const capts = $("[data-capt]");
+		for(let i = 0; i < capts.length; i++) {
+			let capt = $(capts[i]);
+			if (capt.prop("disabled")) {continue;}
+			let cls = capts[i].getAttribute("class");
+			if (capts[i] == this) {
+				cls = cls.replace(/btn-outline-info/i, 'btn-info');
+			} else {
+				cls = cls.replace(/btn-info/i, 'btn-outline-info');
+			}
+			capts[i].setAttribute("class", cls);
+		}
+	});
+	
+});
+
+function checkInput() {
+	if (${product.ptype == 1}) {
+		$("#pid").val(details[0].pid);
+		return;
+	}
+	if (selectedTemperature < 0 || selectedCapacity < 0) {
+		alert("상품을 선택해 주세요!");
+		return false;
+	}
+	details.forEach(d => {
+		if (d.temperature == selectedTemperature && d.capacity == selectedCapacity) {
+			$("#pid").val(d.pid);
+		}
+	});
+}
+</script>	
 </head>
 <body>
-<%@ include file="../user/User_menu.jsp" %>
-<div class="card shadow-sm p-3 mb-5 bg-body rounded"" align="center">
-		<div class="container row"  style="border:1px solid;width:100%;margin-right:20%;margin-left:20%;padding:0px;">
-			<div class="col-md-12" style="border:1px solid;width:100%;margin:0px;padding:0px;background-color:orange;">
+	<%@ include file="../user/User_menu.jsp"%>
+	<div class="card shadow-sm p-3 mb-5 bg-body rounded" align="center">
+	<div class="container">
+		<div class="container row">
+			<div class="offset-md-2 col-md-8 menu-bg-color-2" style="border: 1px solid orange;">
 				<h3 class="form-signin-heading">상세 메뉴 구매</h3>
 			</div>
-			<div class ="col-md-8" style="width:350px;height:500px;border:1px solid;margin-top: 18px;border-right:none;border-left:none;">
-			<img src="../resources/img/<c:out value="${product.imagefile}" />" style="width:250px; height:375px;margin-top:10px;margin-bottom:10px;">
+		</div>
+
+		<div class="container row">
+			<div class="col-md-5 py-5">
+				<img style="width:100%; height:100%;" src="/resources/img/${product.imagefile}">
 			</div>
-			<div class="col-md-4"  style="margin:0px;padding:0px;">
-				<div class="card-body" style="margin:0px;padding:0px;">
-					<form name="order" class="form-horizontal" method="post" action="/user/User_Order?product=<%= product.get(0) %>&category=<%=product.get(0).getPcategory()%>">
-					<div class="table-responsive" style="width:500px;padding:0px;margin:0px;">
-					<table class="table" id="dataTable" width="100%" cellspacing="0">
-                        	<thead>
-                           		<tr align ="center" valign="middle">
-                            		<th style="background-color: silver;">메뉴 명</th>
-                           				 <td colspan = "3" span><h5><strong><i><%= product.get(0).getPname() %></i></strong></h5></td>
-                            	</tr>
-                            	<tr align ="center" valign="middle">
-                            		<th style="background-color: silver;padding-top: 0px;" >
-                            			<h6 align ="center" valign="middle" >설명</h6>
-                            		</th>
-                            			<td colspan = "3" span><%=product.get(0).getDescription() %></td>
-                            	</tr>
-                                  <tr align ="center" valign="middle">
-									<p><strong><td colspan = "4" span style="background-color: silver;color:white;">제품 영양 정보[함량(100g 기준)]</td></strong></p>
-    						    </tr>
-    						    <tr align ="center" valign="middle">
-                                	<th style="background-color:silver;">칼로리(열량)</th>
-                                		<td><%= product.get(0).getCalorie() %> kcal</td>
-                                </tr>     
-                                <tr align ="center" valign="middle">
-                                	<th style="background-color: silver;">지방</th>
-                                		<td style="width:100px;"> <%= product.get(0).getFat() %> g</td>
-                                	<th  style="background-color: silver;">당</th>
-                                		<td> <%= product.get(0).getSugars() %>g</td>
-                                </tr> 
-                                <tr align ="center" valign="middle">
-                                	<th style="background-color: silver;">나트륨</th>
-                                		<td><%= product.get(0).getSodium() %> g</td>
-                                	<th  style="background-color: silver;">카페인</th>
-                                		<td style="width: 150px;"><%= product.get(0).getCaffeine()%> g</td>
-                                </tr>
-                                <tr align ="center" valign="middle">
-										<p><td colspan = "4" span style="background-color: silver;color:white">제품 구매시 선택 항목</td></p>
-								</tr>    
-                                <tr align ="center" valign="middle">
-                                	<th style="background-color: silver;">냉/온</th>
-                                			<% 
-                                			int index=0;
-                                			int hot=0;
-                                			int cold=0;
-                                			int ttmp=3;
-                                			String s_hot = "hot";
-                                			String s_cold="ice";
-                                			while(product.get(index) !=null)
-                                			{
-                                				if(product.get(index).getTemperature()==0)
-                                				{cold =1;}
-                                				else if(product.get(index).getTemperature()==1)
-                                				{hot=1;}
-                                				if(product.size() == index+1)
-                                				{index =0;break;}
-                                				index++;
-                                			}
-                                			if(cold ==1 && hot ==1){
-                                			%>
-                                				<td>
-                                					<select name="tem">
-													<option value="0" selected>cold</option>
-													<option value="1" >hot</option>
-													</select>
-                                				</td>
-                                			<%
-                                			}
-                                			else if(cold ==1){
-                                				%>
-                                				<td>
-                                					<select name="tem">
-													<option value="0" selected>cold</option>
-													</select>
-                                				</td>
-                                			<%	
-                                			}
-                                			else if(hot ==1){
-                                			%>
-                                				<td>
-                                					<select name="tem">
-													<option value="1"  selected>hot</option>
-													</select>
-                                				</td>
-                                			<%	
-                                			}
-                                			%>
-                                </tr>
-                                <tr align ="center" valign="middle">
-                                	<th style="background-color: silver;">용량</th>
-                                	<%
-                                		int a=0;
-                                		int start=1;
-                                		int ctmp=0;
-                                		boolean  shot =false;//237
-                                		boolean tall = false;//355
-                                		boolean grande = false;//473
-                                		boolean venti = false;//591
-                                		while(product.get(a) != null)
-                                		{
-                                			if(product.get(a).getCapacity()==237)
-                                			{shot = true;}
-                                			else if(product.get(a).getCapacity()==355)
-                                			{tall= true;}
-                                			else if(product.get(a).getCapacity()==437)
-                                			{grande = true;}
-                                			else if(product.get(a).getCapacity()==591)
-                                			{venti = true;}
-                                			if(product.size() == a+1)
-                                			{a=0;break;}
-                                			a++;
-                                		}
-                                	%>
-                                	<td>
-                                		<select id="cap" name ="cap" onchange="change()">
-                                			<%	
-                                			if(shot == true)
-                                			{
-                                			%>
-												<option value="237" >(Short)237 ml</option>
-                                			<% 
-                                			}
-                                			if(tall == true)
-                                			{
-                                			%>
-												<option value="355" <c:if test ="${cap eq '355'}">selected="selected"</c:if>>(Tall) 355 ml</option>
-                            				<% 
-                                			}
-                                			if(grande==true)
-                                			{
-                                			%>
-												<option value="437">(Grande) 437 ml</option>
-                            				<% 
-                                			}
-                                			%>
-                                			<% 
-                                			if(venti==true)
-                                			{
-                                			%>
-												<option value="591">(Venti) 591 ml</option>
-                            				<% 
-                                			}
-                                			%>
-                                		</select>
-                                	</td>
-                                </tr>                              		
-                                 <tr align ="center" valign="middle">
-                                	<th style="background-color: silver;">가격</th>
-                                		<td colspan = "3" span><%= product.get(0).getPrice() %></td>
-                                </tr>
-                           </thead>
-                    </table>
-                    </div>
-					
-               	 	<div class="form-group  row">
-						<div class="col-sm-offset-2 col-sm-10 ">
-							<input type="submit" class="btn btn-outline-primary " value="장바구니에 담기" > 
-							<input type="button" class="btn btn-outline-danger "  value="취소"  onclick="location.href='/menu/User_Drink_Menu'">
-						</div>
-					</div>
-				</form>
-                </div>
+			<div class="col-md-6" style="margin: 0px; padding: 0px;">
+				<table class="table" id="dataTable">
+					<tr>
+						<td colspan="4" style="border-top-color: #FFF">
+							<h5><strong><i>${product.pname}</i></strong></h5>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">${product.description}</td>
+					</tr>
+					<tr>
+						<td colspan="2">제품 영양 정보</td>
+						<td colspan="2" class="text-right">${product.ptype == 0 ? 'Tall(톨) / 355ml 기준':'100g 기준' }</td>
+					</tr>
+					<tr style="border-bottom-color: #FFF">
+						<td>칼로리(kcal)</td>
+						<td class="text-right">${product.calorie}</td>
+						<td class="td-divide">나트륨(mg)</td>
+						<td class="text-right">${product.sodium}</td>
+					</tr>
+					<tr style="border-bottom-color: #FFF">
+						<td>포화지방(g)</td>
+						<td class="text-right">${product.fat}</td>
+						<td class="td-divide">당류(g)</td>
+						<td class="text-right">${product.sugars}</td>
+					</tr>
+					<tr style="border-bottom-color: #FFF">
+						<td>단백질(g)</td>
+						<td class="text-right">${product.protein}</td>
+						<td class="td-divide">커페인(mg)</td>
+						<td class="text-right">${product.caffeine}</td>
+					</tr>
+					<tr></tr>
+					<tr>
+						<td>선택1</td>
+						<td colspan="3" id="option1"></td>
+					</tr>
+					<tr>
+						<td>선택2</td>
+						<td colspan="3" id="option2"></td>
+					</tr>
+				</table>
 			</div>
 		</div>
+
+		<div class="container row d-flex justify-content-center">
+			<div class="">
+				<form action="/user/InsertOrder" method="post">
+					<input type="hidden" id="pid" name="pid">
+					<input type="submit" class="btn btn-outline-primary " value="장바구니에 담기" onclick="return checkInput();">
+					<input type="button" class="btn btn-outline-danger " value="취소" onclick="location.href='/menu/User_Drink_Menu'">
+				</form>
+			</div>
+		</div>
+
+	</div>
 	</div>
 </body>
 </html>
