@@ -88,8 +88,7 @@ CREATE TABLE tbl_driver_work_history (
   onwork NUMBER(1) NOT NULL,
   registdate DATE DEFAULT SYSDATE NOT NULL,
   updatedate DATE DEFAULT SYSDATE NOT NULL,
-  CONSTRAINT pk_driver_work_history PRIMARY KEY (did, registdate),
-  CONSTRAINT fk_driver_work FOREIGN KEY(did) REFERENCES tbl_driver(did)
+  CONSTRAINT pk_driver_work_history PRIMARY KEY (did, registdate)
 );
 
 -- 배달원 승인 이력
@@ -99,8 +98,7 @@ CREATE TABLE tbl_driver_permit_history (
   reason VARCHAR2(200) NOT NULL,
   registdate DATE DEFAULT SYSDATE NOT NULL,
   updatedate DATE DEFAULT SYSDATE NOT NULL,
-  CONSTRAINT pk_driver_permit_history PRIMARY KEY (did, registdate),
-  CONSTRAINT fk_driver_permit FOREIGN KEY(did) REFERENCES tbl_driver(did)
+  CONSTRAINT pk_driver_permit_history PRIMARY KEY (did, registdate)
 );
 
 -- 주문 상태 마스터
@@ -128,9 +126,7 @@ CREATE TABLE tbl_order (
   status NUMBER(1) DEFAULT 0 NOT NULL, 
   orderdate DATE, -- 주문 완료 시간
   registdate DATE DEFAULT SYSDATE NOT NULL,
-  updatedate DATE DEFAULT SYSDATE NOT NULL,
-  CONSTRAINT kf_order_uid FOREIGN KEY(userid) REFERENCES tbl_user(userid),
-  CONSTRAINT kf_order_did FOREIGN KEY(did) REFERENCES tbl_driver(did)
+  updatedate DATE DEFAULT SYSDATE NOT NULL
 );
 
 -- 주문 상태 이력
@@ -139,8 +135,7 @@ CREATE TABLE tbl_order_history (
   status NUMBER(1) NOT NULL, 
   registdate DATE DEFAULT SYSDATE NOT NULL,
   updatedate DATE DEFAULT SYSDATE NOT NULL,
-  CONSTRAINT pk_order_history PRIMARY KEY (oid, registdate),
-  CONSTRAINT fk_order_history_oid FOREIGN KEY(oid) REFERENCES tbl_order(oid)
+  CONSTRAINT pk_order_history PRIMARY KEY (oid, registdate)
 );
 
 -- 주문 상세
@@ -152,8 +147,7 @@ CREATE TABLE tbl_order_detail (
   registdate DATE DEFAULT SYSDATE NOT NULL,
   updatedate DATE DEFAULT SYSDATE NOT NULL,
   CONSTRAINT pk_order_detail PRIMARY KEY (oid, pid),
-  CONSTRAINT fk_detail_oid FOREIGN KEY(oid) REFERENCES tbl_order(oid),
-  CONSTRAINT fk_detail_pid FOREIGN KEY(pid) REFERENCES tbl_product(pid)
+  CONSTRAINT fk_detail_oid FOREIGN KEY(oid) REFERENCES tbl_order(oid)
 );
 
 -- INDEX
