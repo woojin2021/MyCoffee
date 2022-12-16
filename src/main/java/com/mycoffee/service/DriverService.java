@@ -51,4 +51,7 @@ public interface DriverService {
 	
 	public List<DriverInfo> getUncheckedOrder();
 	
+	public boolean isTokenExpired(String token);
+	
+	public String getToken(DriverDTO driver);
 }

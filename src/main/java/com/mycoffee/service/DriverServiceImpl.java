@@ -12,6 +12,7 @@ import com.mycoffee.domain.DriverDTO;
 import com.mycoffee.domain.DriverInfo;
 import com.mycoffee.domain.DriverOrderVO;
 import com.mycoffee.domain.DriverVO;
+import com.mycoffee.mapper.CafeMapper;
 import com.mycoffee.mapper.DeliveryMapper;
 import com.mycoffee.mapper.DriverMapper;
 
@@ -25,7 +26,7 @@ public class DriverServiceImpl implements DriverService{
 
 	private DriverMapper drivermapper;
 	private DeliveryMapper deliverymapper;
-
+	private CafeMapper cafemapper;
 	
 	@Override
 	public int memberJoin(DriverDTO driver) {
@@ -174,6 +175,24 @@ public class DriverServiceImpl implements DriverService{
 		List<DriverInfo> oList = getOrder(datas);
 		
 		return oList;
+	}
+
+	@Override
+	public boolean isTokenExpired(String token) {
+		Integer isExpired = cafemapper.isTokenExpired(token);
+		if (isExpired == null) 
+			isExpired = 1; 
+		return isExpired > 0;
+	}
+
+	@Override
+	public String getToken(DriverDTO driver) {
+		String token = Integer.toHexString((driver.getDid() + driver.getPassword() + driver.getName()).hashCode());
+		int chk = cafemapper.updateToken(token);
+		if (chk == 0) {
+			cafemapper.setToken(driver.getDid(), token);
+		}
+		return Integer.toHexString((driver.getDid() + driver.getPassword() + driver.getName()).hashCode());
 	}
 
 	

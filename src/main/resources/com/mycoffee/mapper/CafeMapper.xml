@@ -28,4 +28,20 @@
 		   AND TO_CHAR(orderdate, 'yyyymmdd') = TO_CHAR(SYSDATE, 'yyyymmdd') 
 	</select>
 	
+	<insert id="setToken">
+		insert into tbl_access_token
+			(userid, token)
+		values
+			(#{userid}, #{token})
+	</insert>
+	<update id="updateToken">
+		update tbl_access_token set
+		       expired = SYSDATE + 7
+		 where token = #{token}
+	</update>
+	<select id="isTokenExpired" resultType="Integer">
+		SELECT CASE WHEN expired > SYSDATE THEN 0 ELSE 1 END result
+		  FROM tbl_access_token
+		 WHERE token = #{token}
+	</select>
 </mapper>
