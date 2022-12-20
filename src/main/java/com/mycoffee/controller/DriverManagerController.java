@@ -69,7 +69,7 @@ public class DriverManagerController {
 
 	// Android용 함수
 	
-	@RequestMapping(value = "/manager/token", method = {RequestMethod.POST},  produces = {MediaType.APPLICATION_JSON_VALUE})
+	@RequestMapping(value = "/manager/login2", method = {RequestMethod.POST},  produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<String> getToken(@RequestBody DriverDTO driver) {
 		log.info("안드로이드 연동: 로그인 [" + driver + "]");
 		DriverVO lvo = driverservice.driverLogin(driver);
@@ -99,22 +99,22 @@ public class DriverManagerController {
 	}
 
 	@RequestMapping(value = "/manager/join/approve2", method = {RequestMethod.PUT})
-	@ResponseBody
-	public String approveRegist2(@RequestBody DriverDTO driver, @RequestParam("token") String token) {
+	public void approveRegist2(@RequestBody DriverDTO driver, @RequestParam("token") String token) {
 		log.info("안드로이드 연동: 배달원 승인 [" + driver + "]");
 		log.info("안드로이드 연동: 배달원 승인 [" + token + "]");
-//		managerservice.approveRegist(driver);
-		return "redirect: /driver/manager/driverList";
+		if (driverservice.isTokenExpired(token)) {
+			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "invalid token");
+		}
+		managerservice.approveRegist(driver);
 	}
 
-	@GetMapping("/manager/join/reject2")
-	@ResponseBody
-	public ResponseEntity<String> rejectRegist2(String did){
+	@RequestMapping(value = "/manager/join/reject2", method = {RequestMethod.PUT})
+	public void rejectRegist2(@RequestBody DriverDTO driver, @RequestParam("token") String token) {
 		log.info("안드로이드 연동: 배달원 거부");
-		DriverDTO driver = new DriverDTO();
-		driver.setDid(did);
-//		managerservice.rejectRegist(driver);
-		return ResponseEntity.ok("success");
+		if (driverservice.isTokenExpired(token)) {
+			throw new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "invalid token");
+		}
+		managerservice.rejectRegist(driver);
 	}
 
 }

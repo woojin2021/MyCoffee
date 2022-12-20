@@ -1,5 +1,6 @@
 package com.mycoffee.service;
 
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.common.hash.Hashing;
 import com.mycoffee.domain.DriverDTO;
 import com.mycoffee.domain.DriverInfo;
 import com.mycoffee.domain.DriverOrderVO;
@@ -187,12 +189,14 @@ public class DriverServiceImpl implements DriverService{
 
 	@Override
 	public String getToken(DriverDTO driver) {
-		String token = Integer.toHexString((driver.getDid() + driver.getPassword() + driver.getName()).hashCode());
-		int chk = cafemapper.updateToken(token);
-		if (chk == 0) {
-			cafemapper.setToken(driver.getDid(), token);
-		}
-		return Integer.toHexString((driver.getDid() + driver.getPassword() + driver.getName()).hashCode());
+		String keys = driver.getDid() + driver.getPassword() + Integer.toHexString((int)(Math.random() * 100000000));
+		String token = Hashing.sha256()
+				  .hashString(keys, StandardCharsets.UTF_8)
+				  .toString();
+		cafemapper.deleteToken(driver.getDid());
+		cafemapper.insertToken(driver.getDid(), token);
+		
+		return token;
 	}
 
 	

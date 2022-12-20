@@ -14,9 +14,12 @@ public interface CafeMapper {
 	
 	public int getWaitingOrderCount();
 	
-	public int setToken(@Param("userid") String userid, @Param("token") String token);
+	public int insertToken(@Param("userid") String userid, @Param("token") String token);
 
 	public int updateToken(String token);
+
+	public int deleteToken(String userid);
 	
 	public Integer isTokenExpired(String token);
+	
 }

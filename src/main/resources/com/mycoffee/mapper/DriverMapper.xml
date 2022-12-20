@@ -77,8 +77,12 @@
 			       NVL(v2.cnt, 0) reserved, 
 			       NVL(v3.cnt, 0) completed
 			  FROM TBL_DRIVER d 
-			  LEFT OUTER JOIN TBL_ORDER o ON d.DID = o.DID
-			  LEFT OUTER JOIN TBL_USER u ON o.USERID = u.USERID
+			  LEFT OUTER JOIN (
+			         SELECT oid, did, userid, status, orderdate,
+			                ROW_NUMBER() OVER(PARTITION BY did ORDER BY orderdate) row_num
+			           FROM TBL_ORDER
+			       ) o ON d.DID = o.DID and o.row_num = 1
+			  LEFT OUTER JOIN TBL_USER u ON o.USERID = u.USERID AND o.status = 4
 			  LEFT OUTER JOIN (
 			         SELECT did, COUNT(did) cnt FROM TBL_ORDER 
 			          WHERE TO_CHAR(orderdate, 'yyyymmdd') = TO_CHAR(orderdate, 'yyyymmdd') 
